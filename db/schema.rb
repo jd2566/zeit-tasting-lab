@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_06_10_055037) do
+ActiveRecord::Schema.define(version: 2018_06_10_063536) do
 
   create_table "categories", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "root_categories_id"
@@ -84,6 +84,15 @@ ActiveRecord::Schema.define(version: 2018_06_10_055037) do
     t.datetime "updated_at", null: false
     t.index ["items_id"], name: "index_tags_on_items_id"
     t.index ["matches_id"], name: "index_tags_on_matches_id"
+  end
+
+  create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "username"
+    t.string "email"
+    t.string "encrypted_password"
+    t.string "salt"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   add_foreign_key "categories", "root_categories", column: "root_categories_id"
