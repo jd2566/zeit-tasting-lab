@@ -1,0 +1,2 @@
+class RootCategory < ApplicationRecord
+end
