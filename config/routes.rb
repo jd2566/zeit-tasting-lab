@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  resources :tags
+  resources :matches
+  resources :items
   resources :sections
   resources :menus
   resources :categories

@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  categories: one
+  sections: one
+  name: MyString
+  detail: MyText
+  stock: 1
+
+two:
+  categories: two
+  sections: two
+  name: MyString
+  detail: MyText
+  stock: 1
