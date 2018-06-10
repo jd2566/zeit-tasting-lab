@@ -1,4 +1,4 @@
-class ItemsController < ApplicationController
+class Api::V1::ItemsController < Api::V1::BaseController
   before_action :set_item, only: [:show, :update, :destroy]
 
   # GET /items

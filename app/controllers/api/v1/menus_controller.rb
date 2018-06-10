@@ -1,4 +1,4 @@
-class MenusController < ApplicationController
+class Api::V1::MenusController < Api::V1::BaseController
   before_action :set_menu, only: [:show, :update, :destroy]
 
   # GET /menus

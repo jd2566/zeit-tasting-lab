@@ -1,4 +1,4 @@
-class RootCategoriesController < ApplicationController
+class Api::V1::RootCategoriesController < Api::V1::BaseController
   before_action :set_root_category, only: [:show, :update, :destroy]
 
   # GET /root_categories

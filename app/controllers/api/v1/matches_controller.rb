@@ -1,4 +1,4 @@
-class MatchesController < ApplicationController
+class Api::V1::MatchesController < Api::V1::BaseController
   before_action :set_match, only: [:show, :update, :destroy]
 
   # GET /matches

@@ -1,4 +1,4 @@
-class SectionsController < ApplicationController
+class Api::V1::SectionsController < Api::V1::BaseController
   before_action :set_section, only: [:show, :update, :destroy]
 
   # GET /sections
