@@ -1,11 +1,19 @@
 Rails.application.routes.draw do
-  resources :users
-  resources :tags
-  resources :matches
-  resources :items
-  resources :sections
-  resources :menus
-  resources :categories
-  resources :root_categories
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+
+  root 'panels#menu'
+
+  scope :controller => "panels", :path => "/panels" do
+    get 'menu' => :menu
+  end
+
+  scope :path => "/api/v1" do
+    resources :sections
+    resources :menus
+    resources :tags
+    resources :matches
+    resources :items
+    resources :categories
+    resources :root_categories
+  end
+
 end
