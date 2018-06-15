@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_06_10_144449) do
+ActiveRecord::Schema.define(version: 2018_06_15_020418) do
 
   create_table "categories", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "root_categories_id"
@@ -42,6 +42,11 @@ ActiveRecord::Schema.define(version: 2018_06_10_144449) do
     t.datetime "updated_at", null: false
     t.index ["categories_id"], name: "index_items_on_categories_id"
     t.index ["sections_id"], name: "index_items_on_sections_id"
+  end
+
+  create_table "jwt_blacklist", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "jti", null: false
+    t.index ["jti"], name: "index_jwt_blacklist_on_jti"
   end
 
   create_table "matches", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -87,12 +92,24 @@ ActiveRecord::Schema.define(version: 2018_06_10_144449) do
   end
 
   create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.string "username"
-    t.string "email"
-    t.string "encrypted_password"
-    t.string "salt"
+    t.string "email", default: "", null: false
+    t.string "encrypted_password", default: "", null: false
+    t.string "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.integer "sign_in_count", default: 0, null: false
+    t.datetime "current_sign_in_at"
+    t.datetime "last_sign_in_at"
+    t.string "current_sign_in_ip"
+    t.string "last_sign_in_ip"
+    t.integer "failed_attempts", default: 0, null: false
+    t.string "unlock_token"
+    t.datetime "locked_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+    t.index ["unlock_token"], name: "index_users_on_unlock_token", unique: true
   end
 
   add_foreign_key "categories", "root_categories", column: "root_categories_id"
