@@ -4,9 +4,9 @@ services:
     restart: always
     build: .
     ports:
-    - 80
-#    volumes:
-#      - ./log:/home/app/webapp/log
-#      - ./public/assets:/home/app/webapp/public/assets
-      #- ./log:/app/log
-      #- ./public/assets:/app/public/assets
+    - "80:80"
+    volumes:
+     # - ./log:/home/app/webapp/log
+      #- ./public/assets:/home/app/webapp/public/assets
+    - ./log:/app/log
+    - ./public/assets:/app/public/assets
