@@ -1,6 +1,19 @@
-<div id="materials">
-  <Materials></Materials>
+<div id="lab">
+  <el-container>
+    <el-aside width="500px">
+      <item-selector></item-selector>
+    </el-aside>
+    <el-container>
+      <el-header>
+        <main-menu></main-menu>
+      </el-header>
+      <el-main>
+        <router-view></router-view>
+      </el-main>
+    </el-container>
+  </el-container>
+  <user-panel></user-panel>
 </div>
 
-<%= javascript_pack_tag 'materials' %>
-<%= stylesheet_pack_tag 'materials' %>
+<%= javascript_pack_tag 'lab' %>
+<%= stylesheet_pack_tag 'lab' %>

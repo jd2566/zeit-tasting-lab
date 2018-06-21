@@ -3,7 +3,7 @@ class Api::V1::CategoriesController < Api::V1::BaseController
 
   # GET /categories
   def index
-    @categories = Category.all
+    @categories = Category.includes(:items).select(:id, :name).all
 
     render json: @categories
   end

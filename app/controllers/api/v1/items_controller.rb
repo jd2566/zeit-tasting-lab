@@ -3,8 +3,18 @@ class Api::V1::ItemsController < Api::V1::BaseController
 
   # GET /items
   def index
-    @items = Item.all
-
+    @items = Item.select(:id, :name, :detail)
+                 .where(category_id: params[:category_id])
+                 .with_attached_images.map do |i|
+      i.attributes.merge({
+        images: i.images.map.with_index { |im, index|
+          {
+            name: im.filename,
+            url: url_for(im),
+          }
+        },
+      })
+    end
     render json: @items
   end
 
@@ -16,9 +26,10 @@ class Api::V1::ItemsController < Api::V1::BaseController
   # POST /items
   def create
     @item = Item.new(item_params)
-
+    @item.category_id = params[:category_id]
+    item_data = @item.slice(:id, :name, :detail, :category_id).merge({images: []})
     if @item.save
-      render json: @item, status: :created, location: @item
+      render json: item_data, status: :created
     else
       render json: @item.errors, status: :unprocessable_entity
     end
@@ -27,7 +38,7 @@ class Api::V1::ItemsController < Api::V1::BaseController
   # PATCH/PUT /items/1
   def update
     if @item.update(item_params)
-      render json: @item
+      render json: @item.slice(:id, :name, :detail, :category_id)
     else
       render json: @item.errors, status: :unprocessable_entity
     end
@@ -38,14 +49,24 @@ class Api::V1::ItemsController < Api::V1::BaseController
     @item.destroy
   end
 
-  private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_item
-      @item = Item.find(params[:id])
-    end
+  def image
+    @item = Item.find(params[:item_id])
+    @item.images.attach(params[:file])
+    head :ok
+  end
 
-    # Only allow a trusted parameter "white list" through.
-    def item_params
-      params.fetch(:item, {})
-    end
+  def del_image
+  end
+
+  private
+
+  # Use callbacks to share common setup or constraints between actions.
+  def set_item
+    @item = Item.find(params[:id])
+  end
+
+  # Only allow a trusted parameter "white list" through.
+  def item_params
+    params.fetch(:item, {}).permit(:name, :detail)
+  end
 end

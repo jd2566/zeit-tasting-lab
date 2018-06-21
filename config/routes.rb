@@ -1,14 +1,14 @@
 Rails.application.routes.draw do
   devise_for :users,
-             path: '',
+             path: "",
              path_names: {
-               sign_in: 'login',
-               sign_out: 'logout',
-               registration: 'signup'
+               sign_in: "login",
+               sign_out: "logout",
+               registration: "signup",
              },
              controllers: {
-               sessions: 'sessions',
-               registrations: 'registrations'
+               sessions: "sessions",
+               registrations: "registrations",
              }
   root "panels#menu"
 
@@ -21,8 +21,12 @@ Rails.application.routes.draw do
     resources :menus, controller: "api/v1/menus"
     resources :tags, controller: "api/v1/tags"
     resources :matches, controller: "api/v1/matches"
-    resources :items, controller: "api/v1/items"
-    resources :categories, controller: "api/v1/categories"
+    resources :categories, controller: "api/v1/categories" do
+      resources :items, controller: "api/v1/items" do
+        post :image
+        delete :del_image
+      end
+    end
     resources :root_categories, controller: "api/v1/root_categories"
   end
 end
