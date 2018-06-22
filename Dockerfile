@@ -41,9 +41,12 @@ CMD ["/sbin/my_init"]
 #   Node.js and Meteor standalone support.
 #   (not needed if you already have the above Ruby support)
 #RUN /pd_build/nodejs.sh
+RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
+RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
 
-RUN apt-get update && apt-get install -y tzdata
+RUN apt-get update && apt-get install -y tzdata && apt-get install -y yarn
 # ...put your own build intructions here...
+
 RUN rm /etc/nginx/sites-enabled/default
 ADD webapp.conf /etc/nginx/sites-enabled/webapp.conf
 RUN mkdir /home/app/webapp
@@ -55,6 +58,13 @@ RUN gem install bundler
 RUN bundle install
 RUN rm -f /etc/service/nginx/down
 
+RUN rm config/credentials.yml.enc
+RUN EDITOR="mate --wait" bundle exec rails credentials:edit
+RUN bundle exec rails assets:precompile
+
+RUN chown -R app:app tmp/cache
+RUN chown -R app:app log
+RUN chown -R app:app public
 
 # Clean up APT when done.
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*

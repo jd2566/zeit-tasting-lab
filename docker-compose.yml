@@ -4,9 +4,12 @@ services:
     restart: always
     build: .
     ports:
-    - 80
-#    volumes:
-#      - ./log:/home/app/webapp/log
-#      - ./public/assets:/home/app/webapp/public/assets
+    - "80:80"
+#    environment:
+#    - VIRTUAL_HOST=tastinglab.co
+#    - VIRTUAL_PORT=80
+#    - LETSENCRYPT_HOST=tastinglab.co
+#    - LETSENCRYPT_EMAIL=info@tastinglab.co
+      # volumes:
       #- ./log:/app/log
       #- ./public/assets:/app/public/assets
