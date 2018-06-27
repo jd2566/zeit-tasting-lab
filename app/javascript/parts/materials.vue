@@ -278,7 +278,7 @@ export default {
       if (this.nameDialog.mode === 'edit') {
         url += '/' + this.nameDialog.id;
         method = this.$http.patch(url, data);
-      }else{
+      } else {
         method = this.$http.post(url, data);
       }
       this.nameDialog.loading = true;

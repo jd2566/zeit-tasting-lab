@@ -5,7 +5,14 @@ class Api::V1::RootCategoriesController < Api::V1::BaseController
   def index
     @root_categories = RootCategory.includes(:categories)
                                    .select(:id, :name).all.map do |r|
-      r.attributes.merge({categories: r.categories})
+      r.attributes.merge({
+        categories: r.categories.map { |c|
+          {
+            id: c.id,
+            name: c.name
+          }
+        }
+      })
     end
 
     render json: @root_categories

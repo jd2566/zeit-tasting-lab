@@ -3,7 +3,7 @@ class Api::V1::ItemsController < Api::V1::BaseController
 
   # GET /items
   def index
-    @items = Item.select(:id, :name, :detail)
+    @items = Item.select(:id, :category_id, :name, :detail)
                  .where(category_id: params[:category_id])
                  .with_attached_images.map do |i|
       i.attributes.merge({
@@ -15,7 +15,7 @@ class Api::V1::ItemsController < Api::V1::BaseController
         },
       })
     end
-    render json: @items
+    render json: @items.group_by{|d| d["category_id"] }
   end
 
   # GET /items/1

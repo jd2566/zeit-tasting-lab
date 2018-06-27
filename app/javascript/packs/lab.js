@@ -37,6 +37,14 @@ const store = new Vuex.Store({
       email: "",
       token: "",
       loggedIn: false
+    },
+    root: {
+      id: "",
+      name: ""
+    },
+    category: {
+      id: "",
+      name: ""
     }
   },
   mutations: {
@@ -50,6 +58,14 @@ const store = new Vuex.Store({
     },
     logout (state) {
       state.user.loggedIn = false;
+    },
+    setRoot(state, payload) {
+      state.root.id = payload.id;
+      state.root.name = payload.name;
+    },
+    setCategory (state, payload) {
+      state.category.id = payload.id;
+      state.category.name = payload.name;
     }
   },
   getters: {
@@ -61,6 +77,12 @@ const store = new Vuex.Store({
     },
     getEmail: state => {
       return state.user.email;
+    },
+    getRoot: state => {
+      return state.root;
+    },
+    getCategory: state => {
+      return state.category;
     }
   },
   plugins: [createPersistedState()]
