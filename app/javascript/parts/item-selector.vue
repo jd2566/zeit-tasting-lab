@@ -1,6 +1,6 @@
 <template>
-  <el-row :gutter="5">
-    <el-col :span="10">
+  <el-row>
+    <el-col :span="8">
       <!-- root menu -->
       <el-menu
         v-loading="roots.loading"
@@ -40,20 +40,26 @@
       </el-menu>
     </el-col>
 
-    <el-col :span="14" v-if="getCategory.id != ''">
-      <el-card shadow="always" :body-style="{ 'min-height': '40px' }" >
-        <span class="middle">
-          {{ getCategory.name }}
-        </span>
-        <span style="float: right;">
-          <el-button type="success" icon="el-icon-edit" style="margin-right:8px;"
-                     @click="openForm('edit', 'categories')" circle></el-button>
-          <el-button type="danger" icon="el-icon-close"
-                     @click="deleteCheck('categories', getCategory.id)" circle></el-button>
-        </span>
-      </el-card>
-
-      <item-list></item-list>
+    <el-col :span="16" v-if="getCategory.id != ''">
+      <el-container>
+        <el-header style="margin-bottom:10px;">
+          <el-row>
+            <el-card shadow="always" :body-style="{ 'min-height': '40px' }" >
+              <span class="middle">
+                {{ getCategory.name }}
+              </span>
+              <span style="float: right;">
+                <el-button type="success" icon="el-icon-edit" style="margin-right:5fpx;"
+                          @click="openForm('edit', 'categories')" circle></el-button>
+                <el-button type="danger" icon="el-icon-close"
+                          @click="deleteCheck('categories', getCategory.id)" circle></el-button>
+              </span>
+            </el-card>
+          </el-row>
+        </el-header>
+        <br>
+        <item-list></item-list>
+      </el-container>
 
     </el-col>
 
@@ -199,7 +205,7 @@
         method.then(response => {
           if (this.formDialog.action === 'edit') {
             this.updateData(response.body);
-          }else{
+          } else {
             this.pushData(response.body);
           }
           this.formDialog.visible = false;

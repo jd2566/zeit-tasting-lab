@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_06_17_093207) do
+ActiveRecord::Schema.define(version: 2018_06_30_073141) do
 
   create_table "active_storage_attachments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name", null: false
@@ -52,9 +52,17 @@ ActiveRecord::Schema.define(version: 2018_06_17_093207) do
     t.index ["match_id"], name: "index_item_match_ships_on_match_id"
   end
 
+  create_table "item_section_ships", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.bigint "item_id"
+    t.bigint "section_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["item_id"], name: "index_item_section_ships_on_item_id"
+    t.index ["section_id"], name: "index_item_section_ships_on_section_id"
+  end
+
   create_table "items", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "category_id"
-    t.bigint "section_id"
     t.string "name"
     t.text "detail"
     t.integer "stock"
@@ -62,7 +70,6 @@ ActiveRecord::Schema.define(version: 2018_06_17_093207) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["category_id"], name: "index_items_on_category_id"
-    t.index ["section_id"], name: "index_items_on_section_id"
   end
 
   create_table "jwt_blacklist", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -70,16 +77,23 @@ ActiveRecord::Schema.define(version: 2018_06_17_093207) do
     t.index ["jti"], name: "index_jwt_blacklist_on_jti"
   end
 
+  create_table "match_section_ships", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.bigint "match_id"
+    t.bigint "section_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["match_id"], name: "index_match_section_ships_on_match_id"
+    t.index ["section_id"], name: "index_match_section_ships_on_section_id"
+  end
+
   create_table "matches", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "category_id"
-    t.bigint "section_id"
     t.string "name"
     t.text "detail"
     t.string "how_to"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["category_id"], name: "index_matches_on_category_id"
-    t.index ["section_id"], name: "index_matches_on_section_id"
   end
 
   create_table "menus", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -136,10 +150,12 @@ ActiveRecord::Schema.define(version: 2018_06_17_093207) do
   add_foreign_key "categories", "root_categories"
   add_foreign_key "item_match_ships", "items"
   add_foreign_key "item_match_ships", "matches"
+  add_foreign_key "item_section_ships", "items"
+  add_foreign_key "item_section_ships", "sections"
   add_foreign_key "items", "categories"
-  add_foreign_key "items", "sections"
+  add_foreign_key "match_section_ships", "matches"
+  add_foreign_key "match_section_ships", "sections"
   add_foreign_key "matches", "categories"
-  add_foreign_key "matches", "sections"
   add_foreign_key "sections", "menus"
   add_foreign_key "tags", "items"
   add_foreign_key "tags", "matches"

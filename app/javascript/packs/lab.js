@@ -2,6 +2,7 @@ import Vue from 'vue/dist/vue.esm'
 import Vuex from 'vuex'
 import VueResource from 'vue-resource'
 import VueRouter from 'vue-router'
+import VueLodash from 'vue-lodash'
 import createPersistedState from "vuex-persistedstate";
 import UserPanel from '../parts/user-panel.vue'
 import MainMenu from '../parts/main-menu.vue'
@@ -19,6 +20,7 @@ Vue.mixin(errorHandlers);
 Vue.use(Vuex);
 Vue.use(VueResource);
 Vue.use(VueRouter);
+Vue.use(VueLodash);
 Vue.use(Element);
 
 const routes = [{
@@ -45,7 +47,8 @@ const store = new Vuex.Store({
     category: {
       id: "",
       name: ""
-    }
+    },
+    selected: []
   },
   mutations: {
     setUserData (state, payload) {
@@ -66,6 +69,9 @@ const store = new Vuex.Store({
     setCategory (state, payload) {
       state.category.id = payload.id;
       state.category.name = payload.name;
+    },
+    syncSelected (state, payload) {
+      state.selected = payload;
     }
   },
   getters: {
@@ -83,6 +89,9 @@ const store = new Vuex.Store({
     },
     getCategory: state => {
       return state.category;
+    },
+    getSelected: state => {
+      return state.selected;
     }
   },
   plugins: [createPersistedState()]

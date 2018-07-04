@@ -5,17 +5,8 @@ class Api::V1::ItemsController < Api::V1::BaseController
   def index
     @items = Item.select(:id, :category_id, :name, :detail)
                  .where(category_id: params[:category_id])
-                 .with_attached_images.map do |i|
-      i.attributes.merge({
-        images: i.images.map.with_index { |im, index|
-          {
-            name: im.filename,
-            url: url_for(im),
-          }
-        },
-      })
-    end
-    render json: @items.group_by{|d| d["category_id"] }
+                 .with_attached_images.map(&:json)
+    render json: @items
   end
 
   # GET /items/1
@@ -56,6 +47,9 @@ class Api::V1::ItemsController < Api::V1::BaseController
   end
 
   def del_image
+    @item = Item.find(params[:item_id])
+    @item.images.find_by_id(params[:id]).purge
+    head :ok
   end
 
   private

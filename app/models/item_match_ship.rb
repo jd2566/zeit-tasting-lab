@@ -1,4 +1,4 @@
 class ItemMatchShip < ApplicationRecord
-  belongs_to :items
-  belongs_to :matches
+  belongs_to :item
+  belongs_to :match
 end

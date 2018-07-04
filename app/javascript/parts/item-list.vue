@@ -1,7 +1,89 @@
 <template>
-  <el-row>
-    ABC
-  </el-row>
+  <el-container style="height: 88vh;">
+    <el-main v-loading="listLoading">
+      <el-row v-for="item in items" :key="item.id" style="margin-bottom:5px">
+        <el-card shadow="never" class="middle" :body-style="{'min-height':'42px'}">
+          <span><el-checkbox v-model="item.checked" @change="updateSelected"></el-checkbox></span>
+          {{ item.name }}
+          <span style="float:right;">
+            <el-button @click="itemClicked(item)"
+                       :disabled="item.checked"
+                       icon="el-icon-edit" type="success" circle plain></el-button>
+            <el-button @click="deleteCheck(item.id)"
+                       :disabled="item.checked"
+                       icon="el-icon-close"
+                       type="danger" circle plain></el-button>
+          </span>
+        </el-card>
+        <el-dialog
+          title="修改品項"
+          :visible.sync="item.open"
+          width="35%"
+          :close-on-click-modal="false">
+          <el-form :model="item">
+            <el-form-item label="名稱">
+              <el-input v-model="item.name"></el-input>
+            </el-form-item>
+            <el-form-item label="說明">
+              <el-input type="textarea" v-model="item.detail"></el-input>
+            </el-form-item>
+            <el-upload
+              v-if="item.id !== ''"
+              :action="baseUrl + item.id + '/image'"
+              :headers="header.headers"
+              :on-preview="handlePreview"
+              :on-remove="handleRemove"
+              :file-list="item.images"
+              multiple
+              list-type="picture-card">
+              <el-button size="small" type="primary">上傳</el-button>
+              <div slot="tip" class="el-upload__tip">jpg/png files with a size less than 500kb</div>
+            </el-upload>
+          </el-form>
+          <span slot="footer" class="dialog-footer">
+            <el-button @click="item.open = false">取消</el-button>
+            <el-button type="primary" @click="newItem" :loading="item.loading">
+              修改
+            </el-button>
+          </span>
+        </el-dialog>
+      </el-row>
+
+      <!-- 照片預覽視窗 -->
+      <el-dialog :visible.sync="dialogVisible">
+        <img width="100%" :src="dialogImageUrl" alt="">
+      </el-dialog>
+
+      <el-dialog
+        title="新增品項"
+        :visible.sync="itemForm.open"
+        width="35%"
+        :close-on-click-modal="false">
+
+        <el-form :model="itemForm">
+          <el-form-item label="名稱">
+            <el-input v-model="itemForm.item.name"></el-input>
+          </el-form-item>
+          <el-form-item label="說明">
+            <el-input type="textarea" v-model="itemForm.item.detail"></el-input>
+          </el-form-item>
+        </el-form>
+
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="itemForm.open = false">取消</el-button>
+          <el-button type="primary" @click="newItem" :loading="itemForm.loading">
+            新增
+          </el-button>
+        </span>
+
+      </el-dialog>
+    </el-main>
+    <el-footer style="margin-top: 5px;">
+      <span style="float: right;">
+        <el-button type="success" icon="el-icon-plus" @click="itemForm.open = true">新增品項</el-button>
+      </span>
+    </el-footer>
+  </el-container>
 </template>
 
 <script>
@@ -10,33 +92,131 @@
   export default {
     data: function () {
       return {
-        category: {
-          id: "",
-          name: ""
-        }
+        baseUrl: '/api/v1/categories/' + this.$store.getters.getCategory.id + '/items/',
+        header: { "headers": { "Authorization": this.$store.getters.getToken}},
+        listLoading: false,
+        items: [],
+        itemForm:{
+          loading: false,
+          open: false,
+          item: {
+            name: "",
+            detail: ""
+          },
+        },
+        titles: {
+          items: '品項'
+        },
+        dialogImageUrl: '',
+        dialogVisible: false
       }
     },
     computed: {
       ...mapGetters([
-        'getCategory'
+        'getCategory',
+        'getSelected'
       ])
     },
     watch: {
       getCategory: {
         deep: true,
         handler: function (new_category) {
+          this.baseUrl = '/api/v1/categories/' + new_category.id + '/items/';
           this.loadItems();
+        }
+      },
+      getSelected (items) {
+        if (items.length == 0) {
+          this.items.forEach(i => {
+            i.checked = false;
+          });
         }
       }
     },
     mounted() {
-      if (this.getCategory.id !== '') {
-        this.loadItems();
-      }
+      this.$nextTick(function () {
+        if (this.getCategory.id !== '' && this.$store.getters.isLoggedIn) {
+          this.loadItems();
+        }
+      })
     },
     methods: {
       loadItems () {
-        console.log(this.getCategory.id)
+        this.listLoading = true;
+        this.items = [];
+        this.$http.get(this.baseUrl, this.header).then(response => {
+          response.body.forEach(i => {
+            let item = extend(i, {open: false, loading: false, checked: false})
+            this.items.push(item);
+            this.updateSelected();
+          }, this);
+          this.listLoading = false;
+        }, response => {
+          this.handleError(response)
+        });
+      },
+      handlePreview(file) {
+        this.dialogImageUrl = file.url;
+        this.dialogVisible = true;
+      },
+      handleRemove(file, fileList) {
+        const targetItem = this.items.find(d => d.open == true);
+
+        this.$http.delete(this.baseUrl + targetItem.id + '/del_image/' + file.id, this.header).then(response => {
+          this.$message({
+            type: 'success',
+            message: '刪除成功!'
+          });
+        }, response => {
+          this.handleError(response)
+        });
+      },
+      deleteCheck (id) {
+
+        this.$confirm('確定要刪除此品項嗎?', '刪除品項', {
+          confirmButtonText: '確定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+
+          this.$http.delete(this.baseUrl + id, this.header).then(response => {
+
+            this.items = this.items.filter(e => e.id !== id);
+
+            this.$message({
+              type: 'success',
+              message: '刪除成功!'
+            });
+          }, response => {
+            this.handleError(response)
+          });
+
+        }).catch(() => {
+        });
+      },
+      newItem () {
+        let data = { item: this.itemForm.item }
+        this.$http.post(this.baseUrl, data, this.header).then(response => {
+          let item = extend(response.body, {open: false, loading: false, checked: false})
+          this.items.push(item);
+          this.itemForm.open = false;
+          this.itemForm.item = {
+            name: "", detail: ""
+          }
+          this.$message({
+            type: 'success',
+            message: '新增成功!'
+          });
+        }, response => {
+          this.handleError(response)
+        });
+      },
+      itemClicked (item) {
+        this.$set(item, 'open', true);
+      },
+      updateSelected () {
+        let selected = this.items.filter(s => s.checked);
+        this.$store.commit("syncSelected", selected);
       }
     }
   }
