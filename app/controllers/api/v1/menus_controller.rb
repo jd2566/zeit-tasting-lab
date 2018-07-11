@@ -6,7 +6,9 @@ class Api::V1::MenusController < Api::V1::BaseController
     @menus = Menu.select(:id, :name).includes(:sections).all.map do |m|
       m.attributes.merge({
         sections: m.sections.map { |s|
-          { id: s.id, name: s.name, items: s.items.map(&:json) }
+          items = []
+          items = s.items.map(&:json) if s.items.present?
+          { id: s.id, name: s.name, items: items }
         }
       })
     end
@@ -22,9 +24,13 @@ class Api::V1::MenusController < Api::V1::BaseController
   # POST /menus
   def create
     @menu = Menu.new(menu_params)
-
+    data = @menu.attributes.merge({
+      sections: m.sections.map { |s|
+        { id: s.id, name: s.name, items: [] }
+      }
+    })
     if @menu.save
-      render json: @menu, status: :created, location: @menu
+      render json: data, status: :created
     else
       render json: @menu.errors, status: :unprocessable_entity
     end

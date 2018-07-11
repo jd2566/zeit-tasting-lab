@@ -187,7 +187,7 @@
         this.itemsLoading = true;
         this.$http.post(this.baseUrl + menu + '/sections/', data, this.header).then(response => {
 
-          this.menus[this.currentTab]['sections'].push({ id: response.body.id, name: response.body.name });
+          this.menus[this.currentTab]['sections'].push({ id: response.body.id, name: response.body.name, items: [] });
           this.newSectionName = "";
 
           this.itemsLoading = false;
