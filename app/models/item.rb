@@ -10,7 +10,11 @@ class Item < ApplicationRecord
       id: id,
       category_id: category_id,
       name: name,
+      eng: eng,
+      jpn: jpn,
       detail: detail,
+      eng_detail: eng_detail,
+      jpn_detail: jpn_detail,
       images: images.map.with_index { |im, index|
         {
           id: im.id,

@@ -86,6 +86,8 @@
               loggedIn: true
             });
 
+            this.$cookie.set('token', response.headers.map.authorization[0], 1);
+
             this.loading = false;
           },response => {
             this.handleError(response);

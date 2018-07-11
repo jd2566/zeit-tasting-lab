@@ -2,8 +2,8 @@
   <el-container style="height: 88vh;">
     <el-main v-loading="listLoading">
       <el-row v-for="item in items" :key="item.id" style="margin-bottom:5px">
-        <el-card shadow="never" class="middle" :body-style="{'min-height':'42px'}">
-          <span><el-checkbox v-model="item.checked" @change="updateSelected"></el-checkbox></span>
+        <el-card shadow="never" class="middle" :body-style="{'min-height':'78px'}">
+          <span style="margin-right:5px;"><el-checkbox v-model="item.checked" @change="updateSelected"></el-checkbox></span>
           {{ item.name }}
           <span style="float:right;">
             <el-button @click="itemClicked(item)"
@@ -21,12 +21,35 @@
           width="35%"
           :close-on-click-modal="false">
           <el-form :model="item">
-            <el-form-item label="名稱">
-              <el-input v-model="item.name"></el-input>
-            </el-form-item>
-            <el-form-item label="說明">
-              <el-input type="textarea" v-model="item.detail"></el-input>
-            </el-form-item>
+            <el-tabs type="border-card" v-model="defaultTab">
+              <el-tab-pane label="中文" name="tw">
+                <el-form-item label="名稱">
+                  <el-input v-model="item.name"></el-input>
+                </el-form-item>
+                <el-form-item label="說明">
+                  <el-input type="textarea" v-model="item.detail"></el-input>
+                </el-form-item>
+              </el-tab-pane>
+              <el-tab-pane label="英文" name="eng">
+                <el-form-item label="名稱">
+                  <el-input v-model="item.eng"></el-input>
+                </el-form-item>
+                <el-form-item label="說明">
+                  <el-input type="textarea" v-model="item.eng_detail"></el-input>
+                </el-form-item>
+              </el-tab-pane>
+              <el-tab-pane label="日文" name="jpn">
+                <el-form-item label="名稱">
+                  <el-input v-model="item.jpn"></el-input>
+                </el-form-item>
+                <el-form-item label="說明">
+                  <el-input type="textarea" v-model="item.jpn_detail"></el-input>
+                </el-form-item>
+              </el-tab-pane>
+            </el-tabs>
+
+            <div class="ui hidden divider"></div>
+
             <el-upload
               v-if="item.id !== ''"
               :action="baseUrl + item.id + '/image'"
@@ -42,7 +65,7 @@
           </el-form>
           <span slot="footer" class="dialog-footer">
             <el-button @click="item.open = false">取消</el-button>
-            <el-button type="primary" @click="newItem" :loading="item.loading">
+            <el-button type="primary" @click="updateItem(item)" :loading="item.loading">
               修改
             </el-button>
           </span>
@@ -93,7 +116,7 @@
     data: function () {
       return {
         baseUrl: '/api/v1/categories/' + this.$store.getters.getCategory.id + '/items/',
-        header: { "headers": { "Authorization": this.$store.getters.getToken}},
+        header: { "headers": { "Authorization": this.$cookie.get('token')}},
         listLoading: false,
         items: [],
         itemForm:{
@@ -104,6 +127,7 @@
             detail: ""
           },
         },
+        defaultTab: 'tw',
         titles: {
           items: '品項'
         },
@@ -210,6 +234,18 @@
         }, response => {
           this.handleError(response)
         });
+      },
+      updateItem (item) {
+        this.$http.patch(this.baseUrl + item.id, item, this.header).then(response => {
+          this.$set(item, 'open', false);
+          this.$message({
+            type: 'success',
+            message: '更新成功!'
+          });
+        }, response => {
+          this.handleError(response)
+        });
+
       },
       itemClicked (item) {
         this.$set(item, 'open', true);

@@ -97,7 +97,7 @@
     data: function () {
       return {
         baseUrl: '/api/v1/menus/',
-        header: { "headers": { "Authorization": this.$store.getters.getToken}},
+        header: { "headers": { "Authorization": this.$cookie.get('token')}},
         selected: [],
         menusLoading: false,
         newMenuName: "",

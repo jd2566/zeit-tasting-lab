@@ -1,23 +1,23 @@
-import Vue from 'vue/dist/vue.esm'
+import Vue from 'vue'
 import Vuex from 'vuex'
 import VueResource from 'vue-resource'
 import VueRouter from 'vue-router'
 import VueLodash from 'vue-lodash'
 import createPersistedState from "vuex-persistedstate";
-import UserPanel from '../parts/user-panel.vue'
-import MainMenu from '../parts/main-menu.vue'
-import ItemSelector from '../parts/item-selector.vue'
-
-import MenuEditor from '../parts/menu-editor.vue'
+import VueCookie from 'vue-cookie'
 
 import Element from 'element-ui'
 import './element-variables.scss'
 
 import errorHandlers from '../mixin/errorHandlers'
 
+import App from '../app.vue'
+import MenuEditor from '../parts/menu-editor.vue'
+
 Vue.mixin(errorHandlers);
 
 Vue.use(Vuex);
+Vue.use(VueCookie);
 Vue.use(VueResource);
 Vue.use(VueRouter);
 Vue.use(VueLodash);
@@ -98,16 +98,12 @@ const store = new Vuex.Store({
 })
 
 document.addEventListener('DOMContentLoaded', () => {
+  document.body.appendChild(document.createElement('lab'))
   const app = new Vue({
     mixins: [errorHandlers],
-    el: '#lab',
     data: {},
     store,
     router,
-    components: {
-      MainMenu,
-      UserPanel,
-      ItemSelector
-    }
-  })
+    render: h => h(App)
+  }).$mount('lab')
 })

@@ -292,4 +292,5 @@ Devise.setup do |config|
   end
 
   config.navigational_formats = []
+  config.secret_key = '383d75ff0a0b5e64dd14fb7cf2b2eccfc39ba6a4259c3f89d415436b0950654086b41a5177c76c6ed80b09ffc8ffcced5b3321e2dc578d37abe3fe47800ffa82'
 end
