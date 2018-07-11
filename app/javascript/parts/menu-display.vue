@@ -1,7 +1,7 @@
 <template>
   <el-container>
     <el-header style="height:10vh;">
-      <h2 class="ui horizontal divider header" style="margin:20px;">Test</h2>
+      <h2 class="ui horizontal divider header" style="margin:20px;">ZEIT x LINCK</h2>
     </el-header>
 
     <el-main style="height:88vh;">
@@ -15,7 +15,7 @@
               <div class="row" v-for="item in section.items" :key="item.id">
                 <div class="five wide column">
                   <img v-if="item.images.length > 0" class="ui fluid centered rounded small image" :src="item.images[0].url">
-                  <img v-else class="ui fluid centered rounded small image" src="/images/nike.png">
+                  <img v-else class="ui fluid centered rounded small image" src="/images/zeit.png">
                 </div>
                 <div class="eleven wide column">
                   <h2 class="ui dividing header">
