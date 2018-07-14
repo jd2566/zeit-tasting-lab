@@ -1,12 +1,13 @@
 default: &default
-  adapter: mysql2
-  encoding: utf8
-  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  adapter: postgresql
+  encoding: unicode
+  pool: 5
+  username: zeit_tasting_lab
+  password: jdking666
 
 development:
   <<: *default
-  username: root
-  password: iii@root
+  host: localhost
   database: zeit_tasting_lab_development
 
 test:
@@ -15,6 +16,5 @@ test:
 
 production:
   <<: *default
+  host: db
   database: zeit_tasting_lab_production
-  username: zeit_tasting_lab
-  password: <%= ENV['ZEIT_TASTING_LAB_DATABASE_PASSWORD'] %>

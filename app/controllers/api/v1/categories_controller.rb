@@ -3,7 +3,7 @@ class Api::V1::CategoriesController < Api::V1::BaseController
 
   # GET /categories
   def index
-    @categories = Category.all
+    @categories = Category.includes(:items).select(:id, :name).all
 
     render json: @categories
   end
@@ -18,7 +18,7 @@ class Api::V1::CategoriesController < Api::V1::BaseController
     @category = Category.new(category_params)
 
     if @category.save
-      render json: @category, status: :created, location: @category
+      render json: @category, status: :created
     else
       render json: @category.errors, status: :unprocessable_entity
     end
@@ -39,13 +39,14 @@ class Api::V1::CategoriesController < Api::V1::BaseController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_category
-      @category = Category.find(params[:id])
-    end
 
-    # Only allow a trusted parameter "white list" through.
-    def category_params
-      params.fetch(:category, {})
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_category
+    @category = Category.find(params[:id])
+  end
+
+  # Only allow a trusted parameter "white list" through.
+  def category_params
+    params.fetch(:categories, {}).permit(:root_category_id, :name)
+  end
 end

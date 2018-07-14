@@ -1,10 +1,25 @@
 version: '3'
 services:
+  db:
+    image: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB=zeit_tasting_lab_production
+      - POSTGRES_USER=zeit_tasting_lab
+      - POSTGRES_PASSWORD=jdking666
+    volumes:
+      - ~/postgresql/data:/var/lib/postgresql/data
   web:
     restart: always
     build: .
+    depends_on:
+      - db
     ports:
-    - "80:80"
+      - '80:80'
+    links:
+      - db
+
 #    environment:
 #    - VIRTUAL_HOST=tastinglab.co
 #    - VIRTUAL_PORT=80

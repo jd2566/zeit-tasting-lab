@@ -3,7 +3,15 @@ class Api::V1::MenusController < Api::V1::BaseController
 
   # GET /menus
   def index
-    @menus = Menu.all
+    @menus = Menu.select(:id, :name).includes(:sections).all.map do |m|
+      m.attributes.merge({
+        sections: m.sections.map { |s|
+          items = []
+          items = s.items.map(&:json) if s.items.present?
+          { id: s.id, name: s.name, items: items }
+        }
+      })
+    end
 
     render json: @menus
   end
@@ -46,6 +54,6 @@ class Api::V1::MenusController < Api::V1::BaseController
 
     # Only allow a trusted parameter "white list" through.
     def menu_params
-      params.fetch(:menu, {})
+      params.fetch(:menu, {}).permit(:name)
     end
 end

@@ -3,7 +3,17 @@ class Api::V1::RootCategoriesController < Api::V1::BaseController
 
   # GET /root_categories
   def index
-    @root_categories = RootCategory.all
+    @root_categories = RootCategory.includes(:categories)
+                                   .select(:id, :name).all.map do |r|
+      r.attributes.merge({
+        categories: r.categories.map { |c|
+          {
+            id: c.id,
+            name: c.name
+          }
+        }
+      })
+    end
 
     render json: @root_categories
   end
@@ -18,7 +28,7 @@ class Api::V1::RootCategoriesController < Api::V1::BaseController
     @root_category = RootCategory.new(root_category_params)
 
     if @root_category.save
-      render json: @root_category, status: :created, location: @root_category
+      render json: @root_category, status: :created
     else
       render json: @root_category.errors, status: :unprocessable_entity
     end
@@ -36,16 +46,18 @@ class Api::V1::RootCategoriesController < Api::V1::BaseController
   # DELETE /root_categories/1
   def destroy
     @root_category.destroy
+    head :ok
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_root_category
-      @root_category = RootCategory.find(params[:id])
-    end
 
-    # Only allow a trusted parameter "white list" through.
-    def root_category_params
-      params.fetch(:root_category, {})
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_root_category
+    @root_category = RootCategory.find(params[:id])
+  end
+
+  # Only allow a trusted parameter "white list" through.
+  def root_category_params
+    params.fetch(:root_categories, {}).permit(:name)
+  end
 end

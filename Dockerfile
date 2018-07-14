@@ -43,8 +43,10 @@ CMD ["/sbin/my_init"]
 #RUN /pd_build/nodejs.sh
 RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
 RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
+RUN curl -sL https://deb.nodesource.com/setup_8.x | bash -
 
-RUN apt-get update && apt-get install -y tzdata && apt-get install -y yarn
+RUN apt-get update && apt-get install -y tzdata && apt-get install -y nodejs && apt-get install -y yarn
+
 # ...put your own build intructions here...
 
 RUN rm /etc/nginx/sites-enabled/default
@@ -54,13 +56,19 @@ RUN chown app:app /home/app/webapp
 #RUN ...commands to place your web app in /home/app/webapp<Paste>
 COPY --chown=app:app . /home/app/webapp
 WORKDIR /home/app/webapp
+
+# skip installing gem documentation
+RUN echo 'gem: --no-rdoc --no-ri' >> "$HOME/.gemrc"
 RUN gem install bundler
 RUN bundle install
 RUN rm -f /etc/service/nginx/down
 
+RUN yarn install
+
 RUN rm config/credentials.yml.enc
 RUN EDITOR="mate --wait" bundle exec rails credentials:edit
-RUN bundle exec rails assets:precompile
+
+RUN bundle exec rake assets:precompile
 
 RUN chown -R app:app tmp/cache
 RUN chown -R app:app log
