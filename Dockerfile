@@ -9,7 +9,7 @@
 #FROM phusion/passenger-ruby22:<VERSION>
 #FROM phusion/passenger-ruby23:<VERSION>
 #FROM phusion/passenger-ruby24:<VERSION>
-FROM phusion/passenger-ruby25:0.9.33
+FROM phusion/passenger-ruby25:0.9.34
 #FROM phusion/passenger-jruby91:<VERSION>
 #FROM phusion/passenger-nodejs:<VERSION>
 #FROM phusion/passenger-customizable:<VERSION>
