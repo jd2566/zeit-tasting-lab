@@ -3,7 +3,7 @@ services:
   db:
     image: postgres
     ports:
-      - "5432"
+      - 5432
     environment:
       - POSTGRES_DB=zeit_tasting_lab_production
       - POSTGRES_USER=zeit_tasting_lab
@@ -16,7 +16,7 @@ services:
     depends_on:
       - db
     ports:
-      - '80'
+      - 80:80
     links:
       - db
 
