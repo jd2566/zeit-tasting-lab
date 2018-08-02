@@ -31,51 +31,83 @@
             <el-button type="primary" @click="openMenu(menu.id)">
               打開菜單 <i class="el-icon-tickets el-icon-right"></i>
             </el-button>
-            <el-form :inline="true" style="margin:10px;">
-              <el-form-item>
-                <el-input v-model="newSectionName" placeholder="名稱"></el-input>
-              </el-form-item>
+            <el-button type="danger"
+                       icon="el-icon-delete" @click="deleteData(menu.id)"
+                       style="float:right"
+                       circle></el-button>
+            <div class="ui dividing grey header"> <i class="list icon"></i> 分類設定</div>
+            <div class="ui  segment">
+              <el-form :inline="true">
+                <i class="tw flag"></i>
+                <el-form-item>
+                  <el-input v-model="newSectionTitle.name" placeholder="中文名稱"></el-input>
+                </el-form-item>
+                <i class="us flag"></i>
+                <el-form-item>
+                  <el-input v-model="newSectionTitle.eng" placeholder="英文名稱"></el-input>
+                </el-form-item>
+                <i class="jp flag"></i>
+                <el-form-item>
+                  <el-input v-model="newSectionTitle.jpn" placeholder="日文名稱"></el-input>
+                </el-form-item>
 
-              <el-form-item>
-                <el-button type="success" icon="el-icon-plus" @click="newSection(menu.id)">菜單分類</el-button>
-              </el-form-item>
+                <el-form-item>
+                  <el-button type="success" icon="el-icon-plus" @click="newSection(menu.id)">菜單分類</el-button>
+                </el-form-item>
+              </el-form>
 
-              <el-form-item style="float:right">
-                <el-button type="danger" icon="el-icon-delete" @click="deleteData(menu.id)" circle></el-button>
-              </el-form-item>
-            </el-form>
+            </div>
+
             <div style="height: 63vh; display: block; overflow-x:scroll;">
-              <el-card v-for="section in menu.sections" :key="section.id" style="margin-bottom: 16px;">
-                <div slot="header" style="min-height:40px; vertical-align: middle;">
-                  <el-button type="primary" icon="el-icon-d-arrow-right" style="height: 100%"
-                            @click="addItem(menu.id, section.id)"
-                            :loading="addLoading"
-                            :disabled="getSelected.length == 0"></el-button>
-                  {{ section.name }}
-                  <span style="float:right;">
-                    <el-button @click="deleteData(menu.id, section.id)"
-                              type="text" style="top:0;">刪除</el-button>
-                  </span>
-                </div>
-                <el-row style="height: 25vh; overflow-y: scroll;">
-                  <el-card v-if="section.items.length == 0"> 未加入品項 </el-card>
-                  <el-col :span="6" v-for="item in section.items" :key="item.id" >
-
-                    <el-card style="width:200px;" :body-style="{ padding: '0px' }">
-                      <img v-if="item.images.length == 0"
-                          src="http://via.placeholder.com/200x200" class="image">
-                      <img v-else :src="item.images[0].url" class="image" alt="">
-                      <div style="padding: 14px; max-height:50px;">
-                        {{ item.name }}
-                        <el-button style="float: right; padding: 3px 0"
-                                   type="text"
-                                   @click="removeFromSection(menu.id, section.id, item.id)">移除</el-button>
+              <el-row :gutter="5" v-for="section in menu.sections" :key="section.id" style="margin-bottom: 16px;">
+                <el-col :span="2">
+                  <el-button type="primary" icon="el-icon-d-arrow-right"
+                              @click="addItem(menu.id, section.id)"
+                              :loading="addLoading"
+                              :disabled="getSelected.length == 0"></el-button>
+                </el-col>
+                <el-col :span="22">
+                  <el-card>
+                    <div slot="header" style="min-height:40px; vertical-align: middle;">
+                      <div v-if="section.name != undefined" class="ui basic large label">
+                        <i class="tw flag"></i>
+                        {{ section.name }}
                       </div>
-                    </el-card>
+                      <div v-if="section.eng != undefined" class="ui basic large label">
+                        <i class="us flag"></i>
+                        {{ section.eng }}
+                      </div>
+                      <div v-if="section.jpn != undefined" class="ui basic large label">
+                        <i class="jp flag"></i>
+                        {{ section.jpn }}
+                      </div>
+                      <span style="float:right;">
+                        <el-button @click="deleteData(menu.id, section.id)"
+                                  type="text" style="top:0;">刪除</el-button>
+                      </span>
+                    </div>
+                    <el-row style="height: 26vh; overflow-y: scroll;">
+                      <el-card v-if="section.items.length == 0"> 未加入品項 </el-card>
+                      <el-col :span="6" v-for="item in section.items" :key="item.id" >
 
-                  </el-col>
-                </el-row>
-              </el-card>
+                        <el-card style="width:200px;" :body-style="{ padding: '0px' }">
+                          <img v-if="item.images.length == 0"
+                              src="http://via.placeholder.com/200x200" class="image">
+                          <img v-else :src="item.images[0].url" class="image" alt="">
+                          <div style="padding: 14px; max-height:50px;">
+                            {{ item.name }}
+                            <el-button style="float: right; padding: 3px 0"
+                                      type="text"
+                                      @click="removeFromSection(menu.id, section.id, item.id)">移除</el-button>
+                          </div>
+                        </el-card>
+
+                      </el-col>
+                    </el-row>
+                  </el-card>
+                </el-col>
+              </el-row>
+
             </div>
 
           </el-tab-pane>
@@ -104,7 +136,11 @@
         newLoading: false,
         currentTab: "",
         menus: [],
-        newSectionName: "",
+        newSectionTitle: {
+          name: "",
+          eng: "",
+          jpn: ""
+        },
         addLoading: false,
         itemsLoading: false
       }
@@ -183,12 +219,12 @@
 
       },
       newSection (menu) {
-        let data = { section: { name: this.newSectionName } };
+        let data = { section: this.newSectionTitle };
         this.itemsLoading = true;
         this.$http.post(this.baseUrl + menu + '/sections/', data, this.header).then(response => {
 
           this.menus[this.currentTab]['sections'].push({ id: response.body.id, name: response.body.name, items: [] });
-          this.newSectionName = "";
+          this.newSectionTitle = {name: "", eng: "", jpn: ""};
 
           this.itemsLoading = false;
           this.$message({

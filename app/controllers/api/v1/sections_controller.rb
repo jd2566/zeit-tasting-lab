@@ -60,6 +60,6 @@ class Api::V1::SectionsController < Api::V1::BaseController
 
     # Only allow a trusted parameter "white list" through.
     def section_params
-      params.fetch(:section, {}).permit(:name)
+      params.fetch(:section, {}).permit(:name, :eng, :jpn)
     end
 end

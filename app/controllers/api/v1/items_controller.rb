@@ -43,13 +43,22 @@ class Api::V1::ItemsController < Api::V1::BaseController
   def image
     @item = Item.find(params[:item_id])
     @item.images.attach(params[:file])
-    head :ok
+    img = @item.images.first
+
+    render json: {
+      item: @item.id,
+      image: {
+        id: img.id,
+        name: img.filename,
+        url: rails_blob_path(img.variant(resize: "480x480").processed.blob, only_path: true)
+      }
+    }
   end
 
   def del_image
     @item = Item.find(params[:item_id])
     @item.images.find_by_id(params[:id]).purge
-    head :ok
+    render json: {item: @item.id, image: params[:id]}
   end
 
   private

@@ -2,9 +2,21 @@
   <el-container style="height: 88vh;">
     <el-main v-loading="listLoading">
       <el-row v-for="item in items" :key="item.id" style="margin-bottom:5px">
-        <el-card shadow="never" class="middle" :body-style="{'min-height':'78px'}">
-          <span style="margin-right:5px;"><el-checkbox v-model="item.checked" @change="updateSelected"></el-checkbox></span>
-          {{ item.name }}
+        <el-card shadow="never" class="middle" :body-style="{'min-height':'78px'}" @click="setChecked(item.id)">
+          <div v-if="item.checked" class="ui green left corner label" @click="setChecked(item.id)">
+            <i class="check icon"></i>
+          </div>
+          <div v-else class="ui left corner label" @click="setChecked(item.id)">
+            <i class="minus icon"></i>
+          </div>
+          <div>
+            <img @click="setChecked(item.id)"
+               v-if="item.images[0]" class="ui tiny left floated image" :src="item.images[0].url">
+            <img @click="setChecked(item.id)"
+                v-if="item.images.length == 0" class="ui tiny left floated image" src="/images/zeit.jpg">
+            <span @click="setChecked(item.id)"> {{ item.name }} </span>
+          </div>
+
           <span style="float:right;">
             <el-button @click="itemClicked(item)"
                        :disabled="item.checked"
@@ -55,6 +67,7 @@
               :action="baseUrl + item.id + '/image'"
               :headers="header.headers"
               :on-preview="handlePreview"
+              :on-success="handleUploaded"
               :on-remove="handleRemove"
               :file-list="item.images"
               multiple
@@ -183,10 +196,16 @@
         this.dialogImageUrl = file.url;
         this.dialogVisible = true;
       },
+      handleUploaded(response, file, fileList) {
+        const targetItem = this.items.find(d => d.id == response.item);
+        targetItem.images.push(response.image);
+      },
       handleRemove(file, fileList) {
         const targetItem = this.items.find(d => d.open == true);
 
         this.$http.delete(this.baseUrl + targetItem.id + '/del_image/' + file.id, this.header).then(response => {
+          const targetItem = this.items.find(d => d.open == true);
+          targetItem.images = targetItem.images.filter(e => e.id != response.body.image);
           this.$message({
             type: 'success',
             message: '刪除成功!'
@@ -237,6 +256,8 @@
       },
       updateItem (item) {
         this.$http.patch(this.baseUrl + item.id, item, this.header).then(response => {
+          let data = response.body;
+          this.$set(item, 'name', data.name);
           this.$set(item, 'open', false);
           this.$message({
             type: 'success',
@@ -253,6 +274,11 @@
       updateSelected () {
         let selected = this.items.filter(s => s.checked);
         this.$store.commit("syncSelected", selected);
+      },
+      setChecked (item) {
+        const targetItem = this.items.find(d => d.id == item);
+        targetItem.checked = !targetItem.checked;
+        this.updateSelected();
       }
     }
   }

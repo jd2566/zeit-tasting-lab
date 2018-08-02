@@ -15,7 +15,7 @@
               <div class="row" v-for="item in section.items" :key="item.id">
                 <div class="five wide column">
                   <img v-if="item.images.length > 0" class="ui fluid centered rounded small image" :src="item.images[0].url">
-                  <img v-else class="ui fluid centered rounded small image" src="/images/zeit.png">
+                  <img v-else class="ui fluid centered rounded small image" src="/images/zeit.jpg">
                 </div>
                 <div class="eleven wide column">
                   <h2 class="ui dividing header">
