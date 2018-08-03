@@ -5,12 +5,13 @@
     </el-header>
 
     <el-main style="height:88vh;">
-      <div class="ui stackable two column grid">
+      <div class="ui stackable two column centered grid">
         <div class="column" v-for="section in sections" :key="section.id">
           <div class="ui piled segment">
             <h1 class="ui horizontal divider header">
               {{ section.name }}
             </h1>
+            <div class="ui hidden divider"></div>
             <div class="ui vertically divided grid">
               <div class="row" v-for="item in section.items" :key="item.id">
                 <div class="five wide column">
@@ -19,8 +20,13 @@
                 </div>
                 <div class="eleven wide column">
                   <h2 class="ui dividing header">
-                    {{ item.name }}
+                    <span v-if="locale == 'tw'">{{ item.name }}</span>
+                    <span v-if="locale == 'us'">{{ item.eng }}</span>
+                    <span v-if="locale == 'jp'">{{ item.jpn }}</span>
                   </h2>
+                  <span v-if="locale == 'tw'">{{ item.detail }}</span>
+                  <span v-if="locale == 'us'">{{ item.eng_detail }}</span>
+                  <span v-if="locale == 'jp'">{{ item.jpn_detail }}</span>
                 </div>
               </div>
             </div>
@@ -35,16 +41,17 @@
 
 <script>
   export default {
-    props: ['menu-id'],
+    props: ['menu-id', 'lang'],
     data: function () {
       return {
+        locale: this.$props.lang,
         loading: false,
         sections: []
       }
     },
     mounted() {
       this.loading = true;
-      this.$http.get('/menu/' + this.$props.menuId + '/data/').then(response => {
+      this.$http.get('/menu/' + this.$props.menuId + '/' + this.$props.lang + '/data/').then(response => {
         this.sections = response.body;
         this.loading = false;
       }, response => {

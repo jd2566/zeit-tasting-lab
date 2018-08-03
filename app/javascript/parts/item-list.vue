@@ -39,7 +39,7 @@
                   <el-input v-model="item.name"></el-input>
                 </el-form-item>
                 <el-form-item label="說明">
-                  <el-input type="textarea" v-model="item.detail"></el-input>
+                  <el-input type="textarea" v-model="item.detail" rows="6"></el-input>
                 </el-form-item>
               </el-tab-pane>
               <el-tab-pane label="英文" name="eng">
@@ -47,7 +47,7 @@
                   <el-input v-model="item.eng"></el-input>
                 </el-form-item>
                 <el-form-item label="說明">
-                  <el-input type="textarea" v-model="item.eng_detail"></el-input>
+                  <el-input type="textarea" v-model="item.eng_detail" rows="6"></el-input>
                 </el-form-item>
               </el-tab-pane>
               <el-tab-pane label="日文" name="jpn">
@@ -55,7 +55,7 @@
                   <el-input v-model="item.jpn"></el-input>
                 </el-form-item>
                 <el-form-item label="說明">
-                  <el-input type="textarea" v-model="item.jpn_detail"></el-input>
+                  <el-input type="textarea" v-model="item.jpn_detail" rows="6"></el-input>
                 </el-form-item>
               </el-tab-pane>
             </el-tabs>
@@ -241,6 +241,7 @@
         let data = { item: this.itemForm.item }
         this.$http.post(this.baseUrl, data, this.header).then(response => {
           let item = extend(response.body, {open: false, loading: false, checked: false})
+
           this.items.push(item);
           this.itemForm.open = false;
           this.itemForm.item = {

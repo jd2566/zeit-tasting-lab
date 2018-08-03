@@ -12,8 +12,8 @@ Rails.application.routes.draw do
              }
   root "panels#menu"
 
-  get "menu/:id" => "menus#index"
-  get "menu/:id/data" => "menus#data"
+  get "menu/:id/:lang" => "menus#index"
+  get "menu/:id/:lang/data" => "menus#data"
 
   scope :controller => "panels", :path => "/panels" do
     get "menu" => :menu

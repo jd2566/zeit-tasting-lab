@@ -28,9 +28,16 @@
             :key="menu.id"
             v-loading="itemsLoading">
             <span slot="label"><i class="el-icon-document"></i> {{ menu.name }}</span>
-            <el-button type="primary" @click="openMenu(menu.id)">
-              打開菜單 <i class="el-icon-tickets el-icon-right"></i>
-            </el-button>
+
+            <div class="ui header">
+              瀏覽菜單
+            </div>
+            <div class="ui basic buttons">
+              <button class="ui button" @click="openMenu(menu.id, 'tw')"><i class="tw flag"></i></button>
+              <button class="ui button" @click="openMenu(menu.id, 'us')"><i class="us flag"></i></button>
+              <button class="ui button" @click="openMenu(menu.id, 'jp')"><i class="jp flag"></i></button>
+            </div>
+
             <el-button type="danger"
                        icon="el-icon-delete" @click="deleteData(menu.id)"
                        style="float:right"
@@ -275,8 +282,8 @@
           this.handleError(response)
         });
       },
-      openMenu (id) {
-        window.open('/menu/'+id, '_blank');
+      openMenu (id, lang) {
+        window.open('/menu/' + id + '/' + lang, '_blank');
       }
     }
   }

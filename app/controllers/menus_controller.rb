@@ -3,11 +3,15 @@ class MenusController < ApplicationController
 
   def index
     @menu = params[:id]
+    @lang = params[:lang]
   end
 
   def data
     @sections = Section.includes(:items).where(menu_id: params[:id]).map { |s|
-      { id: s.id, name: s.name, items: s.items.map(&:json) }
+      name = s.name if params[:lang] == 'tw'
+      name = s.eng  if params[:lang] == 'us'
+      name = s.jpn  if params[:lang] == 'jp'
+      { id: s.id, name: name, items: s.items.map(&:json) }
     }
     render json: @sections
   end

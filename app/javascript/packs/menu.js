@@ -12,7 +12,7 @@ Vue.use(Element);
 
 document.addEventListener('DOMContentLoaded', () => {
   const app = new Vue({
-    props: ['menu-id'],
+    props: ['menu-id', 'lang'],
     mixins: [errorHandlers],
     el: '#menu',
     data: {},

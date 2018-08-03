@@ -18,8 +18,9 @@ class Api::V1::ItemsController < Api::V1::BaseController
   def create
     @item = Item.new(item_params)
     @item.category_id = params[:category_id]
-    item_data = @item.slice(:id, :name, :detail, :category_id).merge({images: []})
+
     if @item.save
+      item_data = @item.slice(:id, :name, :detail, :category_id).merge({images: []})
       render json: item_data, status: :created
     else
       render json: @item.errors, status: :unprocessable_entity

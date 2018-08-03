@@ -19,7 +19,7 @@ class Item < ApplicationRecord
         {
           id: im.id,
           name: im.filename,
-          url: rails_blob_path(im, only_path: true)
+          url: rails_blob_path(im.variant(resize: "480x480").processed.blob, only_path: true)
         }
       }
     }
