@@ -7,7 +7,7 @@
       </el-aside>
 
       <el-container style="height: 98vh;">
-
+        <item-buffer style="height: 15vh; margin:20px;"></item-buffer>
         <el-header>
           <main-menu></main-menu>
         </el-header>
@@ -28,6 +28,7 @@
 import UserPanel from './parts/user-panel.vue'
 import MainMenu from './parts/main-menu.vue'
 import ItemSelector from './parts/item-selector.vue'
+import ItemBuffer from './parts/sub_functions/item-buffer.vue'
 
 export default {
   data: function () {
@@ -37,7 +38,8 @@ export default {
   components: {
     MainMenu,
     UserPanel,
-    ItemSelector
+    ItemSelector,
+    ItemBuffer
   },
 }
 </script>

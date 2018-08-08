@@ -1,18 +1,9 @@
 <template>
   <el-row>
 
-    <el-row :gutter="20" v-loading="menusLoading">
+    <el-row :gutter="5" v-loading="menusLoading">
 
-      <el-col :span="6" style="height: 60vh">
-        <el-card shadow="never">
-          <div slot="header">
-            已選擇品項
-          </div>
-          <el-tag v-for="item in getSelected" :key="item.id" style="margin:5px 0 2px 0;">{{ item.name }}</el-tag>
-        </el-card>
-      </el-col>
-
-      <el-col :span="18">
+      <el-col :span="24">
         <el-form :inline="true" style="margin:10px;">
           <el-form-item>
             <el-input v-model="newMenuName" placeholder="名稱"></el-input>
@@ -65,15 +56,11 @@
 
             </div>
 
-            <div style="height: 63vh; display: block; overflow-x:scroll;">
-              <el-row :gutter="5" v-for="section in menu.sections" :key="section.id" style="margin-bottom: 16px;">
-                <el-col :span="2">
-                  <el-button type="primary" icon="el-icon-d-arrow-right"
-                              @click="addItem(menu.id, section.id)"
-                              :loading="addLoading"
-                              :disabled="getSelected.length == 0"></el-button>
-                </el-col>
-                <el-col :span="22">
+            <div style="height: 48vh; display: block; overflow-x:scroll;">
+              <el-row :gutter="5" justify="center"
+                      v-for="section in menu.sections" :key="section.id" style="margin-bottom: 16px;">
+
+                <el-col :span="24">
                   <el-card>
                     <div slot="header" style="min-height:40px; vertical-align: middle;">
                       <div v-if="section.name != undefined" class="ui basic large label">
@@ -92,14 +79,22 @@
                         <el-button @click="deleteData(menu.id, section.id)"
                                   type="text" style="top:0;">刪除</el-button>
                       </span>
+                      <div class="ui hidden divider"></div>
+                      <div class="ui fluid icon teal basic button"
+                           @click="addItem(menu.id, section.id)"
+                           :loading="addLoading"
+                           :disabled="getSelected.length == 0">
+                          <i class="angle double down icon"></i>
+                          加入品項
+                      </div>
                     </div>
                     <el-row style="height: 26vh; overflow-y: scroll;">
                       <el-card v-if="section.items.length == 0"> 未加入品項 </el-card>
                       <el-col :span="6" v-for="item in section.items" :key="item.id" >
 
-                        <el-card style="width:200px;" :body-style="{ padding: '0px' }">
+                        <el-card style="width:240px;" :body-style="{ padding: '0px' }">
                           <img v-if="item.images.length == 0"
-                              src="http://via.placeholder.com/200x200" class="image">
+                              src="http://via.placeholder.com/240x240" class="image">
                           <img v-else :src="item.images[0].url" class="image" alt="">
                           <div style="padding: 14px; max-height:50px;">
                             {{ item.name }}
@@ -292,7 +287,7 @@
 <style scoped>
   .image {
     width: auto;
-    max-height: 200px;
+    max-height: 240px;
     display: block;
   }
 

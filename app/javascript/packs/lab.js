@@ -12,7 +12,8 @@ import './element-variables.scss'
 import errorHandlers from '../mixin/errorHandlers'
 
 import App from '../app.vue'
-import MenuEditor from '../parts/menu-editor.vue'
+import MenuEditor from '../parts/sub_functions/menu-editor.vue'
+import MatchMaker from '../parts/sub_functions/match-maker.vue'
 
 Vue.mixin(errorHandlers);
 
@@ -26,6 +27,10 @@ Vue.use(Element);
 const routes = [{
     path: '/menu',
     component: MenuEditor
+  },
+  {
+    path: '/match_maker',
+    component: MatchMaker
   }
 ]
 

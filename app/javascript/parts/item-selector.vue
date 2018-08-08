@@ -5,38 +5,18 @@
       <el-menu
         v-loading="roots.loading"
         @open="handleOpen">
-        <el-submenu v-for="r in roots.data" :key="r.id" :index="'root_'+r.id">
-          <template slot="title">
-            <span>{{ r.name }}</span>
-          </template>
-
-          <!-- category menu -->
-          <el-menu-item v-for="category in categories[r.id]"
+        <el-menu-item v-for="category in categories[1]"
                         :key="category.id"
-                        :index="'root_' + r.id + '-'+ category.id"
+                        :index="category.id+''"
                         @click="setCurrentCategory(category.id, category.name)">
                         {{ category.name }}
-          </el-menu-item>
-
-          <el-menu-item index="new" @click="openForm('new', 'categories')">
-            <i class="el-icon-circle-plus-outline"></i>
-            <span>分類</span>
-          </el-menu-item>
-
-          <el-menu-item index="edit" @click="openForm('edit', 'root_categories')">
-            <i class="el-icon-edit"></i>
-            <span>修改主分類</span>
-          </el-menu-item>
-          <el-menu-item index="delete" @click="deleteCheck('root_categories', r.id)">
-            <i class="el-icon-circle-close-outline"></i>
-            <span>刪除主分類</span>
-          </el-menu-item>
-        </el-submenu>
-
-        <el-menu-item index="new" @click="openForm('new', 'root_categories')">
-          <i class="el-icon-circle-plus-outline"></i>
-          <span>主分類</span>
         </el-menu-item>
+
+        <el-menu-item index="new" @click="openForm('new', 'categories')">
+          <i class="el-icon-circle-plus-outline"></i>
+          <span>分類</span>
+        </el-menu-item>
+
       </el-menu>
     </el-col>
 
@@ -95,7 +75,10 @@
         header: { "headers": { "Authorization": this.$cookie.get('token')}},
         roots: {
           loading: false,
-          data: []
+          data: [{
+            id: 1,
+            active: true
+          }]
         },
         categories: {
           data: []
@@ -131,8 +114,7 @@
         this.$http.get('/api/v1/root_categories', this.header).then(response => {
 
           response.body.forEach(root => {
-            this.roots.data.push({ id: root.id, name: root.name, active: false });
-            this.categories[root.id] = root.categories;
+            this.categories[1] = root.categories;
           }, this);
 
           this.roots.loading = false;

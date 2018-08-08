@@ -88,7 +88,7 @@
 
             this.$cookie.set('token', response.headers.map.authorization[0], 1);
 
-            this.loading = false;
+            window.location.reload();
           },response => {
             this.handleError(response);
             this.loading = false;

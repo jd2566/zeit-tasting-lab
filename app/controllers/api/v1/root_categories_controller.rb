@@ -4,7 +4,7 @@ class Api::V1::RootCategoriesController < Api::V1::BaseController
   # GET /root_categories
   def index
     @root_categories = RootCategory.includes(:categories)
-                                   .select(:id, :name).all.map do |r|
+                                   .select(:id, :name).where(id: 1).map do |r|
       r.attributes.merge({
         categories: r.categories.map { |c|
           {
