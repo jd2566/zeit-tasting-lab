@@ -46,7 +46,7 @@ const store = new Vuex.Store({
       loggedIn: false
     },
     root: {
-      id: "",
+      id: "1",
       name: ""
     },
     category: {

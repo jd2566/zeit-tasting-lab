@@ -163,7 +163,7 @@
         var data = {}
         data[this.formDialog.target] = this.form;
         if (this.formDialog.target === 'categories' && this.formDialog.action === 'new') {
-          data[this.formDialog.target]["root_category_id"] = this.getRoot.id;
+          data[this.formDialog.target]["root_category_id"] = 1;
         }
         // prepare url
         var url = '/api/v1/' + this.formDialog.target;
@@ -203,7 +203,7 @@
             this.roots.data.push({id: data.id, name: data.name});
             break;
           case 'categories':
-            this.categories[this.getRoot.id].push({id: data.id, name: data.name});
+            this.categories[1].push({id: data.id, name: data.name});
             break;
 
           default:
