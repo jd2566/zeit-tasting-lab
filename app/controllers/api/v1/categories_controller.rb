@@ -38,6 +38,24 @@ class Api::V1::CategoriesController < Api::V1::BaseController
     @category.destroy
   end
 
+  def match_categories
+    @matches = Category.includes(:matches)
+                       .select(:id, :name).where(root_category_id: 2)
+    render json: @matches
+  end
+
+  def matches
+    category_id = Category.find_by(name: params[:category_id]).id
+    @matches = Match.includes(:items).where(category_id: category_id).map do |m|
+      {
+        match: m.attributes.except("created_at", "updated_at"),
+        items: m.items.with_attached_images.map(&:json)
+      }
+    end
+
+    render json: @matches
+  end
+
   private
 
   # Use callbacks to share common setup or constraints between actions.

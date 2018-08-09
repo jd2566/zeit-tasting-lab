@@ -88,7 +88,7 @@
                           加入品項
                       </div>
                     </div>
-                    <el-row style="height: 26vh; overflow-y: scroll;">
+                    <el-row style="height: 31vh; overflow-y: scroll;">
                       <el-card v-if="section.items.length == 0"> 未加入品項 </el-card>
                       <el-col :span="6" v-for="item in section.items" :key="item.id" >
 

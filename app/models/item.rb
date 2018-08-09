@@ -3,6 +3,9 @@ class Item < ApplicationRecord
   belongs_to :category
   has_many :item_section_ships
   has_many :sections, through: :item_section_ships
+  has_many :item_match_ships
+  has_many :matches, through: :item_match_ships
+
   has_many_attached :images
 
   def json

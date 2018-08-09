@@ -7,7 +7,7 @@
       </el-aside>
 
       <el-container style="height: 98vh;">
-        <item-buffer style="height: 15vh; margin:20px;"></item-buffer>
+        <item-buffer style="height: 20vh; margin:10px;"></item-buffer>
         <el-header>
           <main-menu></main-menu>
         </el-header>

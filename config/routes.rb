@@ -33,7 +33,10 @@ Rails.application.routes.draw do
         post :image
         delete 'del_image/:id' => :del_image
       end
+      get 'matches' => :matches
     end
+    get '/match_categories' => "api/v1/categories#match_categories"
+
     resources :root_categories, controller: "api/v1/root_categories"
   end
 end

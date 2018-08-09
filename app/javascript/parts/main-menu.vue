@@ -1,5 +1,5 @@
 <template>
-  <el-menu :default-active="active" mode="horizontal" router>
+  <el-menu mode="horizontal" router>
     <el-menu-item index="menu">Menu Editor</el-menu-item>
     <el-menu-item index="match_maker">Match Maker</el-menu-item>
   </el-menu>
@@ -9,7 +9,7 @@
   export default {
     data: function () {
       return {
-        active: "menu"
+
       }
     },
     methods: {
