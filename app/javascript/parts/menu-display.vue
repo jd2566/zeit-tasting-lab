@@ -28,7 +28,38 @@
                   <span v-if="locale == 'us'">{{ item.eng_detail }}</span>
                   <span v-if="locale == 'jp'">{{ item.jpn_detail }}</span>
                 </div>
+                <div class="ui basic segment sixteen wide column">
+                  <div class="ui two column grid">
+                    <div class="column" v-for="match in item.matches" :key="match.name" >
+                      <div class="ui massive list">
+                        <a class="item">
+                          <i v-if="match.name == 'Wiffogato'" class="glass martini icon"></i>
+                          <i v-else-if="match.name == 'Affogato'" class="coffee icon"></i>
+                          <i v-else class="heart icon"></i>
+                          <div class="content">
+                            <div class="header">{{ match.name }}</div>
+                            <div class="item">
+                              <div v-for="i in match.items" :key="i.id" class="list">
+                                <a class="item">
+                                  <img v-if="i.image != undefined" class="ui avatar image" :src="i.image.url">
+                                  <img v-else class="ui avatar image" src="/images/zeit.jpg">
+                                  <div class="content">
+                                    <div class="header">{{ i.name }}</div>
+                                  </div>
+                                </a>
+                              </div>
+                            </div>
+                          </div>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+
               </div>
+
+
             </div>
 
           </div>

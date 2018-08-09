@@ -27,4 +27,18 @@ class Item < ApplicationRecord
       }
     }
   end
+
+  def simple_json
+    {
+      id: id,
+      category_id: category_id,
+      name: name,
+      eng: eng,
+      jpn: jpn,
+      image: {
+        id: images.first.id,
+        url: rails_blob_path(images.first.variant(resize: "480x480").processed.blob, only_path: true)
+      }
+    }
+  end
 end
