@@ -46,7 +46,11 @@ RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources
 RUN curl -sL https://deb.nodesource.com/setup_8.x | bash -
 
 RUN apt-get update && apt-get install -y tzdata && apt-get install -y nodejs && apt-get install -y yarn
-
+RUN apt-get install build-essential checkinstall && apt-get build-dep imagemagick -y
+RUN wget http://www.imagemagick.org/download/ImageMagick-6.8.7-7.tar.gz
+RUN tar xzvf ImageMagick-6.8.9-1.tar.gz
+RUN cd ImageMagick-6.8.9-1/
+RUN ./configure --prefix=/opt/imagemagick-6.8 && make
 # ...put your own build intructions here...
 
 RUN rm /etc/nginx/sites-enabled/default
