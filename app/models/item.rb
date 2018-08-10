@@ -36,8 +36,8 @@ class Item < ApplicationRecord
       eng: eng,
       jpn: jpn,
       image: {
-        id: images.first.id,
-        url: rails_blob_path(images.first.variant(resize: "480x480").processed.blob, only_path: true)
+        id: images.first.present? ? images.first.id : nil,
+        url: images.first.present? ? rails_blob_path(images.first.variant(resize: "480x480").processed.blob, only_path: true) : "/images/zeit.jpg"
       }
     }
   end
