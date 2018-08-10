@@ -13,6 +13,8 @@ services:
   web:
     restart: always
     build: .
+    volumes:
+      - .:/home/app/webapp
     depends_on:
       - db
     ports:
