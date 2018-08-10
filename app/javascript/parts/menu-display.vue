@@ -41,8 +41,8 @@
                             <div class="item">
                               <div v-for="i in match.items" :key="i.id" class="list">
                                 <a class="item">
-                                  <img v-if="i.image != undefined" class="ui avatar image" :src="i.image.url">
-                                  <img v-else class="ui avatar image" src="/images/zeit.jpg">
+                                  <img v-if="i.image != undefined" class="ui tiny image" :src="i.image.url">
+                                  <img v-else class="ui tiny image" src="/images/zeit.jpg">
                                   <div class="content">
                                     <div class="header">{{ i.name }}</div>
                                   </div>
@@ -83,6 +83,7 @@
     mounted() {
       this.loading = true;
       this.$http.get('/menu/' + this.menuId + '/' + this.lang + '/data/').then(response => {
+        debugger
         this.sections = response.body;
         this.loading = false;
       }, response => {

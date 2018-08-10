@@ -17,30 +17,31 @@ class MenusController < ApplicationController
       if params[:lang] == 'jp'
         name = s.jpn
       end
-      temp_categories = {}
+
+      section_items = s.items.includes(:matches).map do |i|
+        matches = i.matches.includes(:items, :category)
+        categories = Category.where(id: matches.pluck(:category_id).uniq).map do |c|
+          {
+            id: c.id,
+            name: c.name,
+            items: []
+          }
+        end
+        matches.each do |m|
+          matching_cat = categories.detect{ |c| c[:id] == m.category_id }
+          matching_cat[:items] = m.items.with_attached_images
+                                  .select {|m| m.id != i.id }.map(&:simple_json)
+        end
+
+        i.json.merge({matches: categories})
+      end
+
       {
         id: s.id, name: name,
-        items: s.items.includes(:matches).map { |i|
-          matches = i.matches.includes(:items, :category).each { |m|
-            if temp_categories[m.category.name].nil?
-              temp_categories[m.category.name] = []
-            end
-            temp_categories[m.category.name] <<
-                  m.items.select{|mm| mm.id != i.id }.map(&:simple_json)
-            temp_categories[m.category.name] = temp_categories[m.category.name].flatten.uniq
-          }
-          categories = []
-          temp_categories.each {|c|
-            categories << {
-              name: c[0],
-              items: c[1]
-            }
-          }
-
-          i.json.merge({matches: categories})
-        }
+        items: section_items
       }
     }
+
     render json: @sections
   end
 
