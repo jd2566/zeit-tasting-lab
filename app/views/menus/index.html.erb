@@ -1,6 +1,4 @@
-<div id="menu">
-  <menu-display :menu-id=<%= @menu %> lang="<%= @lang %>" ></menu-display>
-</div>
+<menu :menu-id=<%= @menu %> :lang=<%= @lang %>></menu>
 
 <%= javascript_pack_tag 'menu' %>
 <%= stylesheet_pack_tag 'menu' %>

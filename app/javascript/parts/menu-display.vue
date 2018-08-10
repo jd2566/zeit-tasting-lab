@@ -72,17 +72,17 @@
 
 <script>
   export default {
-    props: ['menu-id', 'lang'],
     data: function () {
       return {
-        locale: this.$props.lang,
+        menuId: this.$route.fullPath.split("/")[2],
+        locale: this.$route.fullPath.split("/")[3],
         loading: false,
         sections: []
       }
     },
     mounted() {
       this.loading = true;
-      this.$http.get('/menu/' + this.$props.menuId + '/' + this.$props.lang + '/data/').then(response => {
+      this.$http.get('/menu/' + this.menuId + '/' + this.lang + '/data/').then(response => {
         this.sections = response.body;
         this.loading = false;
       }, response => {
