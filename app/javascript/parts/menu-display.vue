@@ -1,10 +1,24 @@
 <template>
-  <el-container style="">
-    <el-header style="height:5vh;">
-      <h1 class="ui horizontal divider header" style="margin:20px; font-size:3rem">ZEIT x LINCK</h1>
+  <el-container>
+    <el-header>
+      <h1 class="ui center aligned icon header" style="font-size:3rem">
+        <img class="ui image" src="/images/zeit.jpg">
+        ZEIT x LINCK
+      </h1>
     </el-header>
-
-    <el-main style="height:88vh;">
+    <el-main>
+      <div class="ui hidden divider"></div>
+      <div class="ui one column centered grid">
+        <div class="sixteen wide mobile eight wide computer column">
+          <div class="three ui basic buttons">
+            <button v-for="section in sections" :key="section.id" class="massive ui button">
+              {{ section.name }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </el-main>
+    <el-main style="height:79vh;">
       <div class="ui stackable two column centered grid">
         <div class="sixteen wide mobile eight wide computer column" v-for="section in sections" :key="section.id">
           <div class="ui piled segment">
@@ -44,7 +58,9 @@
                                   <img v-if="i.image != undefined" class="ui small image middle aligned" :src="i.image.url">
                                   <img v-else class="ui small image middle aligned" src="/images/zeit.jpg">
                                   <div class="middle aligned content">
-                                    <div class="header">{{ i.name }}</div>
+                                    <div v-if="locale == 'tw'" class="header">{{ i.name }}</div>
+                                    <div v-if="locale == 'us'" class="header">{{ i.eng }}</div>
+                                    <div v-if="locale == 'jp'" class="header">{{ i.jpn }}</div>
                                   </div>
                                 </div>
                               </div>
@@ -82,7 +98,7 @@
     },
     mounted() {
       this.loading = true;
-      this.$http.get('/menu/' + this.menuId + '/' + this.lang + '/data/').then(response => {
+      this.$http.get('/menu/' + this.menuId + '/' + this.locale + '/data/').then(response => {
         this.sections = response.body;
         this.loading = false;
       }, response => {
