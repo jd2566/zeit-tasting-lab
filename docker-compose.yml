@@ -14,7 +14,7 @@ services:
     restart: always
     build: .
     volumes:
-      - .:/home/app/webapp
+      - ~/storage/zeit-tasting-lab:/home/app/webapp/app/storage
     depends_on:
       - db
     ports:
