@@ -3,7 +3,7 @@ class Api::V1::CategoriesController < Api::V1::BaseController
 
   # GET /categories
   def index
-    @categories = Category.includes(:items).select(:id, :name).all
+    @categories = Category.includes(:items).select(:id, :name).all.map {|c| c.attributes.merge({items: c.items.size}) }
 
     render json: @categories
   end

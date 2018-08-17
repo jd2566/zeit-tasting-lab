@@ -1,6 +1,13 @@
 <template>
   <el-container style="height: 88vh;">
     <el-main v-loading="listLoading">
+      <div class="ui large label">
+        品項數
+        <div class="detail">{{ items.length }}</div>
+      </div>
+
+      <div class="ui divider"></div>
+
       <el-row v-for="item in items" :key="item.id" style="margin-bottom:5px">
         <el-card shadow="never" class="middle" :body-style="{'min-height':'78px'}" @click="setChecked(item.id)">
           <div v-if="item.checked" class="ui green left corner label" @click="setChecked(item.id)">

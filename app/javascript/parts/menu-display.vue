@@ -11,18 +11,18 @@
       <div class="ui one column centered grid">
         <div class="sixteen wide mobile eight wide computer column">
           <div class="three ui basic buttons">
-            <button v-for="section in sections" :key="section.id" class="massive ui button">
+            <button v-for="section in sections" :key="section.id" class="massive ui button" style="font-size:2.3rem">
               {{ section.name }}
             </button>
           </div>
         </div>
       </div>
     </el-main>
-    <el-main style="height:79vh;">
+    <el-main style="height:96vh;">
       <div class="ui stackable two column centered grid">
         <div class="sixteen wide mobile eight wide computer column" v-for="section in sections" :key="section.id">
           <div class="ui piled segment">
-            <h1 class="ui horizontal divider header">
+            <h1 class="ui horizontal divider header" style="font-size:3rem">
               {{ section.name }}
             </h1>
             <div class="ui hidden divider"></div>
@@ -75,7 +75,6 @@
 
               </div>
 
-
             </div>
 
           </div>
@@ -116,6 +115,6 @@
 
 <style scoped>
 .header {
-  font-size: 2.5rem;
+  font-size: 2.1rem;
 }
 </style>
