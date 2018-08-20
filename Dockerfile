@@ -68,7 +68,7 @@ RUN yarn install
 RUN rm config/credentials.yml.enc
 RUN EDITOR="mate --wait" bundle exec rails credentials:edit
 
-RUN bundle exec rake assets:precompile
+RUN bundle exec rake assets:precompile --trace
 
 RUN chown -R app:app tmp/cache
 RUN chown -R app:app log
