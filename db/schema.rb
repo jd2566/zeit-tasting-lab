@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_07_09_074725) do
+ActiveRecord::Schema.define(version: 2018_09_18_111510) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -78,6 +78,7 @@ ActiveRecord::Schema.define(version: 2018_07_09_074725) do
     t.string "jpn"
     t.text "eng_detail"
     t.text "jpn_detail"
+    t.integer "price", default: 0
     t.index ["category_id"], name: "index_items_on_category_id"
   end
 
@@ -108,6 +109,7 @@ ActiveRecord::Schema.define(version: 2018_07_09_074725) do
     t.text "jpn_detail"
     t.string "eng_how_to"
     t.string "jpn_how_to"
+    t.integer "price", default: 0
     t.index ["category_id"], name: "index_matches_on_category_id"
   end
 

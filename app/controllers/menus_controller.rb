@@ -20,6 +20,7 @@ class MenusController < ApplicationController
 
       section_items = s.items.includes(:matches).map do |i|
         matches = i.matches.includes(:items, :category)
+
         categories = Category.where(id: matches.pluck(:category_id).uniq).map do |c|
           {
             id: c.id,
@@ -29,6 +30,7 @@ class MenusController < ApplicationController
         end
         matches.each do |m|
           matching_cat = categories.detect{ |c| c[:id] == m.category_id }
+          matching_cat[:price] = m.price
           matching_cat[:items] = m.items.with_attached_images
                                   .select {|m| m.id != i.id }.map(&:simple_json)
         end

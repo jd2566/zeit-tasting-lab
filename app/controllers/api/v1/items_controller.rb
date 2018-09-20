@@ -3,7 +3,7 @@ class Api::V1::ItemsController < Api::V1::BaseController
 
   # GET /items
   def index
-    @items = Item.select(:id, :category_id, :name, :eng, :jpn, :detail, :eng_detail, :jpn_detail)
+    @items = Item.select(:id, :category_id, :name, :eng, :jpn, :detail, :eng_detail, :jpn_detail, :price)
                  .where(category_id: params[:category_id])
                  .with_attached_images.map(&:json)
     render json: @items
@@ -30,7 +30,7 @@ class Api::V1::ItemsController < Api::V1::BaseController
   # PATCH/PUT /items/1
   def update
     if @item.update(item_params)
-      render json: @item.slice(:id, :name, :eng, :jpn, :detail, :eng_detail, :jpn_detail, :category_id)
+      render json: @item.slice(:id, :name, :eng, :jpn, :detail, :eng_detail, :jpn_detail, :price, :category_id)
     else
       render json: @item.errors, status: :unprocessable_entity
     end
@@ -71,6 +71,6 @@ class Api::V1::ItemsController < Api::V1::BaseController
 
   # Only allow a trusted parameter "white list" through.
   def item_params
-    params.fetch(:item, {}).permit(:name, :eng, :jpn, :detail, :eng_detail, :jpn_detail)
+    params.fetch(:item, {}).permit(:name, :eng, :jpn, :detail, :eng_detail, :jpn_detail, :price)
   end
 end

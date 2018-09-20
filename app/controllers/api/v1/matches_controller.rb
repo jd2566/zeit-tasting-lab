@@ -51,6 +51,6 @@ class Api::V1::MatchesController < Api::V1::BaseController
     def match_params
       params.fetch(:match, {})
             .permit(:category_id, :name, :eng, :jpn, :detail, :how_to,
-                    :eng_detail, :jpn_detail, :eng_how_to, :jpn_how_to)
+                    :eng_detail, :jpn_detail, :eng_how_to, :jpn_how_to, :price)
     end
 end

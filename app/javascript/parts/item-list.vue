@@ -69,6 +69,12 @@
 
             <div class="ui hidden divider"></div>
 
+            <el-form-item label="售價">
+              <el-input-number v-model="item.price" controls-position="right" :min="0" :max="10000" :step="5"></el-input-number>
+            </el-form-item>
+
+            <div class="ui hidden divider"></div>
+
             <el-upload
               v-if="item.id !== ''"
               :action="baseUrl + item.id + '/image'"

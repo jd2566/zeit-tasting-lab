@@ -54,6 +54,14 @@
             </div>
           </div>
           <h5 class="ui attached header">
+            售價
+          </h5>
+          <div class="ui attached segment">
+
+            <el-input-number v-model="makingMatch.price" controls-position="right" :min="0" :max="10000" :step="5"></el-input-number>
+
+          </div>
+          <h5 class="ui attached header">
             搭配說明
           </h5>
           <div class="ui attached segment">
@@ -151,7 +159,8 @@
           eng_detail: "",
           jpn_detail: "",
           eng_how_to: "",
-          jpn_how_to: ""
+          jpn_how_to: "",
+          price: 0
         },
         matchingItems: []
       }
@@ -250,7 +259,6 @@
         }
         this.$http.patch('/api/v1/matches/' + this.makingMatch.id, data, this.header).then(response => {
           let match = response.body;
-          debugger
 
         }, response => {
           this.handleError(response)

@@ -13,6 +13,7 @@ class Item < ApplicationRecord
       id: id,
       category_id: category_id,
       name: name,
+      price: price,
       eng: eng,
       jpn: jpn,
       detail: detail,
