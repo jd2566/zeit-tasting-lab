@@ -40,7 +40,7 @@
                     <span v-if="locale == 'jp'">{{ item.jpn }}</span>
                   </h2>
                   <div class="ui basic segment" style="padding: 0">
-                    <div class="ui black basic large label">
+                    <div class="ui black basic big label" style="float: right;">
                       {{ item.price }} <i class="dollar sign icon"></i>
                     </div>
                   </div>
