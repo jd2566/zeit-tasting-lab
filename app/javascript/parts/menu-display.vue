@@ -70,7 +70,7 @@
                         <div class="ui secondary center aligned segment">
                           <img v-if="i.image != undefined" class="ui image center aligned" :src="i.image.url">
                           <img v-else class="ui image center aligned" src="/images/zeit.jpg">
-                          <div class="ui small header">
+                          <div class="ui small center aligned header">
                             <span v-if="locale == 'tw'">{{ i.name }}</span>
                             <span v-if="locale == 'us'">{{ i.eng }}</span>
                             <span v-if="locale == 'jp'">{{ i.jpn }}</span>
