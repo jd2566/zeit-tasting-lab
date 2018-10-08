@@ -6,7 +6,7 @@
           <img class="ui image" style="width: 56px" src="/images/zeit.jpg">
         </div>
         <div class="item">
-          ZEIT x LINCK
+          <h3>ZEIT x LINCK</h3>
         </div>
         <div class="right menu">
           <a @click="openMenu(menuId, 'tw')" class="item"><i class="tw flag" target="_blank"></i></a>
@@ -20,7 +20,7 @@
       <div class="ui one column centered grid">
         <div class="sixteen wide mobile eight wide computer column">
           <div class="three ui basic buttons">
-            <button v-for="section in sections" :key="section.id" class="massive ui button">
+            <button v-for="section in sections" :key="section.id" class="large ui button">
               {{ section.name }}
             </button>
           </div>
@@ -31,9 +31,9 @@
       <div class="ui doubling two column centered grid">
         <div class="sixteen wide column" v-for="section in sections" :key="section.id">
           <div class="ui piled segment">
-            <h1 class="ui horizontal divider header" style="font-size:3rem">
+            <h2 class="ui horizontal divider header">
               {{ section.name }}
-            </h1>
+            </h2>
 
             <div class="ui hidden divider"></div>
 
@@ -70,12 +70,12 @@
                         <div class="ui secondary center aligned segment">
                           <img v-if="i.image != undefined" class="ui image center aligned" :src="i.image.url">
                           <img v-else class="ui image center aligned" src="/images/zeit.jpg">
-                          <div class="ui header">
+                          <div class="ui small header">
                             <span v-if="locale == 'tw'">{{ i.name }}</span>
                             <span v-if="locale == 'us'">{{ i.eng }}</span>
                             <span v-if="locale == 'jp'">{{ i.jpn }}</span>
                           </div>
-                          <div class="ui basic label">
+                          <div class="ui basic small label">
                             <i class="dollar sign icon"></i>
                             <span>{{ match.price }}</span>
                           </div>
