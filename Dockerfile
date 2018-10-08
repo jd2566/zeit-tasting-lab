@@ -73,6 +73,7 @@ RUN bundle exec rake assets:precompile --trace
 RUN chown -R app:app tmp/cache
 RUN chown -R app:app log
 RUN chown -R app:app public
+RUN chown -R app:app config/master.key
 
 # Clean up APT when done.
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
