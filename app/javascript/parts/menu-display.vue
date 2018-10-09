@@ -9,9 +9,12 @@
           <h3>ZEIT x LINCK</h3>
         </div>
         <div class="right menu">
-          <a @click="openMenu(menuId, 'tw')" class="item"><i class="tw flag" target="_blank"></i></a>
-          <a @click="openMenu(menuId, 'us')" class="item"><i class="us flag" target="_blank"></i></a>
-          <a @click="openMenu(menuId, 'jp')" class="item"><i class="jp flag" target="_blank"></i></a>
+          <a :href="'/menu/' + menuId + '/tw'"
+             v-touch="clicking()" class="item"><i class="tw flag" target="_blank"></i></a>
+          <a :href="'/menu/' + menuId + '/us'"
+             v-touch="clicking()" class="item"><i class="us flag" target="_blank"></i></a>
+          <a :href="'/menu/' + menuId + '/jp'"
+             v-touch="clicking()" class="item"><i class="jp flag" target="_blank"></i></a>
         </div>
       </div>
     </el-header>
@@ -118,8 +121,8 @@
       });
     },
     methods: {
-      openMenu (id, lang) {
-        window.location('/menu/' + id + '/' + lang);
+      clicking () {
+
       }
     },
     components: {

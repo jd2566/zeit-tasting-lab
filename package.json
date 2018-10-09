@@ -12,6 +12,7 @@
     "vue-resource": "^1.5.1",
     "vue-router": "^3.0.1",
     "vue-template-compiler": "^2.5.16",
+    "vue2-touch-events": "^1.0.0",
     "vuex": "^3.0.1",
     "vuex-persistedstate": "^2.5.4"
   },
