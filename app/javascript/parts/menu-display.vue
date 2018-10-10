@@ -40,7 +40,7 @@
 
             <div class="ui hidden divider"></div>
 
-            <div class="ui two cards">
+            <div class="ui one cards">
               <div v-for="item in section.items" :key="item.id" class="card">
                 <div class="image">
                   <img v-if="item.images.length > 0" class="ui fluid centered rounded image" :src="item.images[0].url">
