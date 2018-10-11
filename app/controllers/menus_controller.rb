@@ -20,7 +20,7 @@ class MenusController < ApplicationController
       end
 
       section_items = s.items.includes(:matches).map do |i|
-        matches = i.matches.includes(:items, :category)
+        matches = i.matches.includes(:items, :category).references(:items)
 
         categories = Category.where(id: matches.pluck(:category_id).uniq).map do |c|
           {

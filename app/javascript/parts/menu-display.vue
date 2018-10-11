@@ -9,31 +9,18 @@
           <h3>ZEIT x LINCK</h3>
         </div>
         <div class="right menu">
-          <a :href="'/menu/' + menuId + '/tw'"
-             v-touch="clicking()" class="item"><i class="tw flag" target="_blank"></i></a>
-          <a :href="'/menu/' + menuId + '/us'"
-             v-touch="clicking()" class="item"><i class="us flag" target="_blank"></i></a>
-          <a :href="'/menu/' + menuId + '/jp'"
-             v-touch="clicking()" class="item"><i class="jp flag" target="_blank"></i></a>
+          <a @click="touched('tw')" class="item"><i class="tw flag" target="_blank"></i></a>
+          <a @click="touched('us')" class="item"><i class="us flag" target="_blank"></i></a>
+          <a @click="touched('jp')" class="item"><i class="jp flag" target="_blank"></i></a>
         </div>
       </div>
     </el-header>
     <el-main>
-      <div class="ui hidden divider"></div>
-      <div class="ui one column centered grid">
-        <div class="sixteen wide mobile eight wide computer column">
-          <div class="three ui basic buttons">
-            <button v-for="section in sections" :key="section.id" class="large ui button">
-              {{ section.name }}
-            </button>
-          </div>
-        </div>
-      </div>
-    </el-main>
-    <el-main style="height:96vh;">
       <div class="ui doubling two column centered grid">
         <div class="sixteen wide column" v-for="section in sections" :key="section.id">
-          <div class="ui piled segment">
+
+            <div class="ui hidden divider"></div>
+
             <h2 class="ui horizontal divider header">
               {{ section.name }}
             </h2>
@@ -68,11 +55,37 @@
                       </div>
                     </div>
 
-                    <div v-for="i in match.items" :key="i.id" class="item">
+                    <div v-if="match.name == 'Wiffogato' || match.name == 'Affogato'" class="ui two column grid">
+                      <div class="six wide column" style="padding-right:0">
+                        <img v-if="match.name == 'Affogato'"
+                             class="ui fluid centered rounded image" src="/images/Affogato.png"
+                             v-touch="">
+                        <img v-else
+                             class="ui fluid centered rounded image" src="/images/Wiffogato.png">
+                      </div>
+                      <div class="ten wide column">
+                        <div v-for="i in match.items" :key="i.id" class="item">
+                          <div class="ui center aligned header">
+                            <div class="ui secondary center aligned segment">
+                              <div class="ui small center aligned header">
+                                <span v-if="locale == 'tw'">{{ i.name }}</span>
+                                <span v-if="locale == 'us'">{{ i.eng }}</span>
+                                <span v-if="locale == 'jp'">{{ i.jpn }}</span>
+                              </div>
+                              <div class="ui basic small label">
+                                <i class="dollar sign icon"></i>
+                                <span>{{ match.price }}</span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                      </div>
+                    </div>
+
+                    <div v-else v-for="i in match.items" :key="i.id" class="item">
                       <div class="ui center aligned header">
                         <div class="ui secondary center aligned segment">
-                          <img v-if="i.image != undefined" class="ui image center aligned" :src="i.image.url">
-                          <img v-else class="ui image center aligned" src="/images/zeit.jpg">
                           <div class="ui small center aligned header">
                             <span v-if="locale == 'tw'">{{ i.name }}</span>
                             <span v-if="locale == 'us'">{{ i.eng }}</span>
@@ -92,8 +105,6 @@
               </div>
             </div>
 
-
-          </div>
         </div>
       </div>
     </el-main>
@@ -108,7 +119,9 @@
         menuId: this.$route.fullPath.split("/")[2],
         locale: this.$route.fullPath.split("/")[3],
         loading: false,
-        sections: []
+        sections: [],
+        zoomAffo: false,
+        zoomWiffo: false
       }
     },
     mounted() {
@@ -121,7 +134,11 @@
       });
     },
     methods: {
-      clicking () {
+      touched (lang) {
+        window.location.assign(window.location.protocol + "//" +
+                               window.location.host + '/menu/' + this.menuId + '/' + lang)
+      },
+      zoom () {
 
       }
     },
