@@ -65,12 +65,14 @@ RUN rm -f /etc/service/nginx/down
 
 RUN yarn install
 
+RUN rm config/credentials.yml.enc
+RUN RAILS_MASTER_KEY="f4068e6df473503f68ac840f17cf1f28" EDITOR="mate --wait" bundle exec rails credentials:edit
+
 RUN bundle exec rake assets:precompile --trace
 
 RUN chown -R app:app tmp/cache
 RUN chown -R app:app log
 RUN chown -R app:app public
-RUN chown -R app:app config/master.key
 
 # Clean up APT when done.
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
