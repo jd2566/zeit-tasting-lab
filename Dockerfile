@@ -66,9 +66,7 @@ RUN rm -f /etc/service/nginx/down
 RUN yarn install
 
 RUN rm config/credentials.yml.enc
-RUN RAILS_MASTER_KEY="f4068e6df473503f68ac840f17cf1f28" EDITOR="mate --wait" bundle exec rails credentials:edit
-
-RUN bundle exec rake assets:precompile --trace
+RUN EDITOR="mate --wait" bundle exec rails credentials:edit
 
 RUN chown -R app:app tmp/cache
 RUN chown -R app:app log
