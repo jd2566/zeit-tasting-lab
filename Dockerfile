@@ -66,7 +66,7 @@ RUN rm -f /etc/service/nginx/down
 # RUN rm config/credentials.yml.enc
 # RUN EDITOR="mate --wait" bundle exec rails credentials:edit
 
-RUN chown -R app:app tmp/cache
+# RUN chown -R app:app tmp/cache
 RUN chown -R app:app log
 RUN chown -R app:app public
 
