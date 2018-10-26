@@ -63,10 +63,9 @@ RUN gem install bundler
 RUN bundle install
 RUN rm -f /etc/service/nginx/down
 
-RUN yarn install
-
-RUN rm config/credentials.yml.enc
-RUN EDITOR="mate --wait" bundle exec rails credentials:edit
+# RUN rm config/credentials.yml.enc
+# RUN EDITOR="mate --wait" bundle exec rails credentials:edit
+COPY ~/master.key /home/app/webapp/config/master.key
 
 RUN chown -R app:app tmp/cache
 RUN chown -R app:app log
