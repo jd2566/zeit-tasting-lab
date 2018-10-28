@@ -90,12 +90,12 @@
                     </div>
                     <el-row style="height: 31vh; overflow-y: scroll;">
                       <el-card v-if="section.items.length == 0"> 未加入品項 </el-card>
-                      <el-col :span="6" v-for="item in section.items" :key="item.id" >
+                      <el-col :span="8" v-for="item in section.items" :key="item.id" >
 
                         <el-card style="width:240px;" :body-style="{ padding: '0px' }">
                           <img v-if="item.images.length == 0"
                               src="http://via.placeholder.com/240x240" class="image">
-                          <img v-else :src="item.images[0].url" class="image" alt="">
+                          <img v-else :src="item.images[0].url" style="width: 100%" class="image" alt="">
                           <div style="padding: 14px; max-height:50px;">
                             {{ item.name }}
                             <el-button style="float: right; padding: 3px 0"
