@@ -54,7 +54,7 @@ ADD webapp.conf /etc/nginx/sites-enabled/webapp.conf
 RUN mkdir /home/app/webapp
 RUN chown app:app /home/app/webapp
 #RUN ...commands to place your web app in /home/app/webapp<Paste>
-COPY --chown=app:app . /home/app/webapp
+COPY --chown=app:app ./main /home/app/webapp
 WORKDIR /home/app/webapp
 
 # skip installing gem documentation
