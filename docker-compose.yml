@@ -23,6 +23,7 @@ services:
     links:
     - db
     environment:
+    - RAILS_MASTER_KEY=aa86589e0f390ab08513e273f06b2cae
     - VIRTUAL_HOST=tastinglab.co
     - VIRTUAL_PORT=80
     - LETSENCRYPT_HOST=tastinglab.co

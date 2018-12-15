@@ -65,9 +65,6 @@ RUN rm -f /etc/service/nginx/down
 
 RUN yarn install
 
-RUN rm config/credentials.yml.enc
-RUN EDITOR="mate --wait" bundle exec rails credentials:edit
-
 RUN bundle exec rake assets:precompile
 
 RUN chown -R app:app tmp/cache
