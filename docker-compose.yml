@@ -3,7 +3,11 @@ services:
   db:
     image: postgres:10.4
     ports:
+<<<<<<< HEAD
     - 5432
+=======
+      - 5432:5432
+>>>>>>> 87b08b403c10335eb333ce2b9d1d579d9aa7837d
     environment:
     - POSTGRES_DB=zeit_tasting_lab_production
     - POSTGRES_USER=zeit_tasting_lab
@@ -16,9 +20,12 @@ services:
   web:
     restart: always
     build: .
+    volumes:
+      - ~/storage/zeit-tasting-lab:/home/app/storage
     depends_on:
     - db
     ports:
+<<<<<<< HEAD
     - 80
     links:
     - db
@@ -31,6 +38,13 @@ services:
     networks:
     - front
     - back
+=======
+      - 80:80
+    links:
+      - db
+    environment:
+      - RAILS_ENV=production
+>>>>>>> 87b08b403c10335eb333ce2b9d1d579d9aa7837d
 
 networks:
   front:

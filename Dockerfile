@@ -45,7 +45,7 @@ RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
 RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
 RUN curl -sL https://deb.nodesource.com/setup_8.x | bash -
 
-RUN apt-get update && apt-get install -y tzdata && apt-get install -y nodejs && apt-get install -y yarn
+RUN apt-get update && apt-get install -y tzdata && apt-get install -y nodejs && apt-get install -y yarn && apt-get install -y imagemagick
 
 # ...put your own build intructions here...
 
@@ -54,7 +54,7 @@ ADD webapp.conf /etc/nginx/sites-enabled/webapp.conf
 RUN mkdir /home/app/webapp
 RUN chown app:app /home/app/webapp
 #RUN ...commands to place your web app in /home/app/webapp<Paste>
-COPY --chown=app:app . /home/app/webapp
+COPY --chown=app:app ./main /home/app/webapp
 WORKDIR /home/app/webapp
 
 # skip installing gem documentation
@@ -67,7 +67,8 @@ RUN yarn install
 
 RUN EDITOR="mate --wait" bundle exec rails credentials:edit
 
-RUN bundle exec rake assets:precompile
+# RUN rm config/credentials.yml.enc
+# RUN EDITOR="mate --wait" bundle exec rails credentials:edit
 
 RUN chown -R app:app tmp/cache
 RUN chown -R app:app log
