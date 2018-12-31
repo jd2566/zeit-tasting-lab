@@ -1,0 +1,20 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: 5
+  username: zeit_tasting_lab
+  password: jdking666
+
+development:
+  <<: *default
+  host: localhost
+  database: zeit_tasting_lab_development
+
+test:
+  <<: *default
+  database: zeit_tasting_lab_test
+
+production:
+  <<: *default
+  host: db
+  database: zeit_tasting_lab_production
